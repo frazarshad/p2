@@ -1,4 +1,4 @@
-from flask import Flask, request,make_response, render_template
+from flask import Flask, request, make_response, render_template
 from DBHandler import DBHandler
 
 abc = Flask(__name__)
@@ -31,7 +31,7 @@ def signup():
                        abc.config["DATABASE"])
         done = db.signup(password, fname)
         print(done)
-        resp=make_response(render_template('mytemplate.html', done=done, name=fname))
+        resp = make_response(render_template('mytemplate.html', done=done, name=fname))
         resp.set_cookie('user',fname)
         return resp
 
