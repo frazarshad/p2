@@ -1,0 +1,6 @@
+DATABASEIP = 'localhost'
+PORT='3307'
+DB_USER = 'root'
+DB_PASSWORD = 'nimra'
+DATABASE = 'testdb'
+SECRET_KEY = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
