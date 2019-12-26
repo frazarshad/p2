@@ -5,15 +5,19 @@ abc = Flask(__name__)
 abc.config.from_object('config')
 
 
-
 @abc.route('/')
 @abc.route('/hell')
 def hello_world():
     return render_template("login.html")
 
+
 def test():
     return "My Hello"
-abc.add_url_rule("/test","tt",test)
+
+
+abc.add_url_rule("/test", "tt", test)
+
+
 @abc.route('/signup', methods=['POST', 'GET'])
 def signup():
     error = None
@@ -36,7 +40,8 @@ def signup():
         error = str(e)
         return render_template('login.html', error=error)
 
-@abc.route("/login",methods=['POST','GET'])
+
+@abc.route("/login", methods=['POST', 'GET'])
 def login():
     error = None
     db = None
@@ -55,7 +60,6 @@ def login():
         print(e)
         error = str(e)
         return render_template('login.html', error=error)
-
 
 
 if __name__ == '__main__':
