@@ -47,7 +47,7 @@ class DBHandler:
             args = (name, password)
             cur.execute(sql, args)
             name, password = cur.fetchone();
-            if fname == None:
+            if name == None:
                 insert = False
             else:
                 insert = True
