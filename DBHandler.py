@@ -21,7 +21,7 @@ class DBHandler:
                                  database=self.DATABASE)
             cur = db.cursor()
             print("here")
-            sql = 'INSERT INTO user (password,name) VALUES (%s, %s)'
+            sql = 'INSERT INTO user (password, name) VALUES (%s, %s)'
             args = (password, fname)
             cur.execute(sql, args)
             insert = True
