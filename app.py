@@ -27,12 +27,12 @@ def signup():
         password = request.form['password']
         fname = request.form['fname']
         print(abc.config["DATABASEIP"])
-        db = DBHandler(abc.config["DATABASEIP"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
+        db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
                        abc.config["DATABASE"])
         done = db.signup(password, fname)
         print(done)
         resp = make_response(render_template('mytemplate.html', done=done, name=fname))
-        resp.set_cookie('user',fname)
+        resp.set_cookie('user', fname)
         return resp
 
     except Exception as e:

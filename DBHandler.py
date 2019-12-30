@@ -3,36 +3,36 @@ import pymysql
 
 class DBHandler:
 
-    def __init__(self, DATABASEIP, DB_USER, DB_PASSWORD, DATABASE):
-        self.DATABASEIP = DATABASEIP
+    def __init__(self, DATABASEIP, DB_PORT, DB_USER, DB_PASSWORD, DATABASE):
+        self.DB_HOST = DATABASEIP
+        self.DB_PORT = DB_PORT
         self.DB_USER = DB_USER
         self.DB_PASSWORD = DB_PASSWORD
         self.DATABASE = DATABASE
 
-    def  __del__(self):
+    def __del__(self):
         print("Destructor")
 
     def signup(self, password, fname):
         db = None
-        cursor = None
+        cur = None
         insert = False
         try:
-            db = pymysql.connect(host=self.DATABASEIP, port=3307, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
-            print("here")
-            sql = 'INSERT INTO user (password, name) VALUES (%s, %s)'
+            sql = 'INSERT INTO users (password, username) VALUES (%s, %s)'
             args = (password, fname)
             cur.execute(sql, args)
             insert = True
 
         except Exception as e:
             print(e)
-            print("some error")
         finally:
             if db is not None:
                 db.commit()
-                db.commit()
+            cur.close()
+            db.close()
             return insert
 
     def login(self, password, name):
@@ -40,11 +40,11 @@ class DBHandler:
         cursor = None
         insert = False
         try:
-            db = pymysql.connect(host=self.DATABASEIP, port=3307, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=self.DB_HOST, port=3307, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
             print("here")
-            sql = 'Select * from user where name=%s AND password=%s'
+            sql = 'SELECT * FROM users WHERE username=%s AND password=%s'
             args = (name, password)
             cur.execute(sql, args)
             name, password = cur.fetchone();
@@ -66,10 +66,10 @@ class DBHandler:
         cursor = None
         myList = []
         try:
-            db = pymysql.connect(host=self.DATABASEIP,port=3307, user=self.DB_USER, passwd=self.DB_PASSWORD, database=self.DATABASE)
+            db = pymysql.connect(host=self.DB_HOST, port=3307, user=self.DB_USER, passwd=self.DB_PASSWORD, database=self.DATABASE)
             cur = db.cursor()
             print("here")
-            sql = 'Select fname,lname,email from users where fname ='+'%s'
+            sql = 'Select fname, lname, email from users where fname ='+'%s'
             args = fname
             cur.execute(sql, args)
             user = ""
