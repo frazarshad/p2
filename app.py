@@ -1,9 +1,13 @@
-from flask import Flask, request, make_response, render_template
+from flask import Flask, request, make_response, render_template, redirect
 from DBHandler import DBHandler
+
+from views.admin_views import admin
+
 
 abc = Flask(__name__)
 abc.config.from_object('config')
 
+abc.register_blueprint(admin)
 
 @abc.route('/')
 @abc.route('/hell')
