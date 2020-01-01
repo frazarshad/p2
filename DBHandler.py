@@ -1,4 +1,5 @@
 import pymysql
+from random import Random
 
 
 class DBHandler:
@@ -9,9 +10,6 @@ class DBHandler:
         self.DB_USER = DB_USER
         self.DB_PASSWORD = DB_PASSWORD
         self.DATABASE = DATABASE
-
-    def __del__(self):
-        print("Destructor")
 
     def signup(self, password, fname):
         db = None
@@ -40,7 +38,7 @@ class DBHandler:
         cursor = None
         insert = False
         try:
-            db = pymysql.connect(host=self.DB_HOST, port=3307, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
             print("here")
@@ -66,7 +64,7 @@ class DBHandler:
         cursor = None
         myList = []
         try:
-            db = pymysql.connect(host=self.DB_HOST, port=3307, user=self.DB_USER, passwd=self.DB_PASSWORD, database=self.DATABASE)
+            db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD, database=self.DATABASE)
             cur = db.cursor()
             print("here")
             sql = 'Select fname, lname, email from users where fname ='+'%s'
@@ -88,6 +86,59 @@ class DBHandler:
                 db.commit()
 
             return myList
+
+    def generate_serial(self):
+        rand = Random()
+        rand.seed()
+        serial = ""
+        for i in range(0, 10):
+            serial += str(rand.randint(0, 9))
+        return serial
+
+    def store_item(self, item):
+        cursor = None
+        db = None
+        try:
+            db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cursor = db.cursor()
+            query = "INSERT INTO items (serial, title, color, quantity, category, gender, price, manufacturer)" + \
+                    f"VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+
+            added = False
+            while not added:
+                try:
+                    serial = self.generate_serial()
+                    cursor.execute(query, [serial]+item.as_args())
+                    added = True
+                except:
+                    pass
+
+        except Exception as e:
+            print(e)
+            print(type(e))
+        finally:
+            db.commit()
+            cursor.close()
+            db.close()
+
+    def get_items(self):
+        cursor = None
+        db = None
+        try:
+            db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cursor = db.cursor()
+            query = "SELECT * FROM items"
+            cursor.execute(query)
+            print(cursor.fetchall())
+
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            db.close()
+
 
 
 def Test():

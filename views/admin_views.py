@@ -10,7 +10,10 @@ admin = Blueprint('admin', __name__, template_folder='templates')
 @admin.route('/admin')
 def admin_page():
     if request.cookies['user'] == 'admin':
-        return render_template('admin.html')
+        db = DBHandler(current_app.config['DATABASEIP'], current_app.config['PORT'], current_app.config['DB_USER'],
+                       current_app.config['DB_PASSWORD'], current_app.config['DATABASE'])
+        items = db.get_items()
+        return render_template('admin.html', item=items)
     else:
         return redirect('/')
 
@@ -19,7 +22,6 @@ def admin_page():
 def admin_add_item():
     try:
         item = Item(
-            request.form.get('serial'),
             request.form.get('title'),
             request.form.get('color'),
             request.form.get('quantity'),
@@ -30,5 +32,8 @@ def admin_add_item():
         )
         file = request.files['picture']
         file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], file.filename))
-    except:
+        db = DBHandler(current_app.config['DATABASEIP'], current_app.config['PORT'], current_app.config['DB_USER'],
+                       current_app.config['DB_PASSWORD'], current_app.config['DATABASE'])
+        db.store_item(item)
+    finally:
         return redirect('/admin')
