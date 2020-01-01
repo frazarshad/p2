@@ -36,28 +36,24 @@ class DBHandler:
     def login(self, password, name):
         db = None
         cursor = None
-        insert = False
+        found = False
         try:
             db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
-            cur = db.cursor()
-            print("here")
+            cursor = db.cursor()
             sql = 'SELECT * FROM users WHERE username=%s AND password=%s'
             args = (name, password)
-            cur.execute(sql, args)
-            name, password = cur.fetchone();
-            if name is None:
-                insert = False
-            else:
-                insert = True
+            cursor.execute(sql, args)
+            if cursor.arraysize == 1:
+                found = True
         except Exception as e:
             print(e)
-            print("some error")
         finally:
-            if db is None:
+            if db:
                 db.commit()
-                db.commit()
-            return cur
+                cursor.close()
+                db.close()
+            return found
 
     def showUsers(self, fname):
         db = None

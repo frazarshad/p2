@@ -16,7 +16,7 @@ for i in range(0, len(output)):
             if 'html' not in to_replace and \
                     '#' not in to_replace and \
                     'javascript' not in to_replace and \
-                    '' not in to_replace:
+                    '' != to_replace:
                 output[i] = output[i].replace(to_replace, "{{ url_for('static', filename='"+to_replace+"') }}")
 
 result = ">".join(output)

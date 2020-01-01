@@ -9,10 +9,10 @@ abc.config.from_object('config')
 
 abc.register_blueprint(admin)
 
+
 @abc.route('/')
-@abc.route('/hell')
 def hello_world():
-    return render_template("login.html")
+    return render_template("mytemplate.html")
 
 
 def test():
@@ -47,23 +47,24 @@ def signup():
 
 @abc.route("/login", methods=['POST', 'GET'])
 def login():
-    error = None
-    db = None
-    try:
-        print("Test")
+    if request.cookies.get('user'):
+        return redirect('/')
+
+    if len(request.form) != 0:
         password = request.form['password']
         name = request.form['name']
-        print(abc.config["DATABASEIP"])
-        db = DBHandler(abc.config["DATABASEIP"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
+        db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
                        abc.config["DATABASE"])
         done = db.login(password, name)
-        print(done)
-        return render_template('mytemplate.html', done=done, name=name)
 
-    except Exception as e:
-        print(e)
-        error = str(e)
-        return render_template('login.html', error=error)
+        if done:
+            resp = make_response(redirect('/'))
+            resp.set_cookie('user', name)
+            return resp
+        else:
+            return render_template('login.html', login_failed=True)
+    else:
+        return render_template('login.html', login_failed=False)
 
 
 if __name__ == '__main__':

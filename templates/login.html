@@ -2,28 +2,28 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>winter</title>
-    <link rel="icon" href="img/favicon.png">
+    <title>Login | E-commerce</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.png') }}">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <!-- animate CSS -->
-    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}">
     <!-- owl carousel CSS -->
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.min.css') }}">
     <!-- font awesome CSS -->
-    <link rel="stylesheet" href="css/all.css">
-    <link rel="stylesheet" href="css/nice-select.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css') }}">
     <!-- flaticon CSS -->
-    <link rel="stylesheet" href="css/flaticon.css">
-    <link rel="stylesheet" href="css/themify-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flaticon.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/themify-icons.css') }}">
     <!-- font awesome CSS -->
-    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/magnific-popup.css') }}">
     <!-- swiper CSS -->
-    <link rel="stylesheet" href="css/slick.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/slick.css') }}">
     <!-- swiper CSS -->
-    <link rel="stylesheet" href="css/price_rangs.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/price_rangs.css') }}">
     <!-- style CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body class="bg-white">
@@ -33,7 +33,7 @@
             <div class="row align-items-center justify-content-center">
                 <div class="col-lg-11">
                     <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="navbar-brand" href="index.html"> <img src="img/logo.png" alt="logo"> </a>
+                        <a class="navbar-brand" href="index.html"> <img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo"> </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -156,7 +156,7 @@
                         <div class="login_part_form_iner">
                             <h3>Welcome Back ! <br>
                                 Please Sign in now</h3>
-                            <form class="row contact_form" action="#" method="post" novalidate="novalidate">
+                            <form class="row contact_form" action="/login" method="post" novalidate="novalidate">
                                 <div class="col-md-12 form-group p_star">
                                     <input type="text" class="form-control" id="name" name="name" value=""
                                         placeholder="Username">
@@ -165,6 +165,11 @@
                                     <input type="password" class="form-control" id="password" name="password" value=""
                                         placeholder="Password">
                                 </div>
+                                <div style="
+                                    color: red;
+                                    margin: auto;
+                                    {% if login_failed%} display: block; {% else %} display: none; {% endif %}
+                                "> Username or password is incorrect.</div>
                                 <div class="col-md-12 form-group">
                                     <div class="creat_account d-flex align-items-center">
                                         <input type="checkbox" id="f-option" name="selector">
@@ -191,23 +196,23 @@
                 <div class="col-lg-12">
                     <div class="instagram_photo_iner">
                         <div class="single_instgram_photo">
-                            <img src="img/instagram/inst_1.png" alt="">
+                            <img src="{{ url_for('static', filename='img/instagram/inst_1.png') }}" alt="">
                             <a href="#"><i class="ti-instagram"></i></a> 
                         </div>
                         <div class="single_instgram_photo">
-                            <img src="img/instagram/inst_2.png" alt="">
+                            <img src="{{ url_for('static', filename='img/instagram/inst_2.png') }}" alt="">
                             <a href="#"><i class="ti-instagram"></i></a> 
                         </div>
                         <div class="single_instgram_photo">
-                            <img src="img/instagram/inst_3.png" alt="">
+                            <img src="{{ url_for('static', filename='img/instagram/inst_3.png') }}" alt="">
                             <a href="#"><i class="ti-instagram"></i></a> 
                         </div>
                         <div class="single_instgram_photo">
-                            <img src="img/instagram/inst_4.png" alt="">
+                            <img src="{{ url_for('static', filename='img/instagram/inst_4.png') }}" alt="">
                             <a href="#"><i class="ti-instagram"></i></a> 
                         </div>
                         <div class="single_instgram_photo">
-                            <img src="img/instagram/inst_5.png" alt="">
+                            <img src="{{ url_for('static', filename='img/instagram/inst_5.png') }}" alt="">
                             <a href="#"><i class="ti-instagram"></i></a> 
                         </div>
                     </div>
@@ -280,7 +285,7 @@
                 <div class="col-lg-12">
                     <div class="copyright_text">
                         <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="{{ url_for('static', filename='https://colorlib.com') }}" target="_blank">Colorlib</a>
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
                     </div>
                 </div>
@@ -291,33 +296,33 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
     <!-- jquery plugins here-->
     <!-- jquery -->
-    <script src="js/jquery-1.12.1.min.js"></script>
+    <script src="{{ url_for('static', filename='js/jquery-1.12.1.min.js') }}"></script>
     <!-- popper js -->
-    <script src="js/popper.min.js"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
     <!-- bootstrap js -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <!-- easing js -->
-    <script src="js/jquery.magnific-popup.js"></script>
+    <script src="{{ url_for('static', filename='js/jquery.magnific-popup.js') }}"></script>
     <!-- swiper js -->
-    <script src="js/swiper.min.js"></script>
+    <script src="{{ url_for('static', filename='js/swiper.min.js') }}"></script>
     <!-- swiper js -->
     
     <!-- particles js -->
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.nice-select.min.js') }}"></script>
     <!-- slick js -->
-    <script src="js/slick.min.js"></script>
-    <script src="js/jquery.counterup.min.js"></script>
-    <script src="js/waypoints.min.js"></script>
-    <script src="js/contact.js"></script>
-    <script src="js/jquery.ajaxchimp.min.js"></script>
-    <script src="js/jquery.form.js"></script>
-    <script src="js/jquery.validate.min.js"></script>
-    <script src="js/mail-script.js"></script>
-    <script src="js/stellar.js"></script>
-    <script src="js/price_rangs.js"></script>
+    <script src="{{ url_for('static', filename='js/slick.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.counterup.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/contact.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.ajaxchimp.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.form.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.validate.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/mail-script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/stellar.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/price_rangs.js') }}"></script>
     <!-- custom js -->
-    <script src="js/custom.js"></script>
+    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
 </body>
 
 </html>
