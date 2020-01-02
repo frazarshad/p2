@@ -33,9 +33,25 @@
 <body class="bg-white">
  <!--::add_new_item part start::-->
     <script>
-        var overlayOn = false;
+        let overlayOn = false;
 
         function checkForm() {
+
+            $("#add-new-item-form").submit(function (e) {
+                e.default();
+            })
+            $(".inputs").each(function () {
+                if ($(this).val() == "") {
+                    $(this).css("background-color", "coral");
+                    $("#add-new-item-form").submit(function (e) {
+                        e.preventDefault();
+                    })
+                } else {
+                    $(this).css("background-color", "white");
+                }
+            });
+
+
             if ($("#quantity").val() < 1) {
                 $("#error").html("Quantity cannot be less than 1");
             }
@@ -51,28 +67,36 @@
         }
     </script>
     <div id="add-item-overlay">
-        <form enctype="multipart/form-data" action="/admin_add_item" method="post" id="add-new-item-form">
-            <div><img src="{{url_for('static', filename='images/close.png')}}" width="25px" height="25px" style="margin: 7px; float: right" onclick="toggleOverlay()"/></div>
+        <form enctype="multipart/form-data" onsubmit="checkForm()" action="/admin_add_item" method="post" id="add-new-item-form">
+            <div><img src="{{url_for('static', filename='img/close.png')}}" width="25px" height="25px" style="margin: 7px; float: right" onclick="toggleOverlay()"/></div>
 
             <label for="title" class="labels">Title: </label>
             <input type="text" id="title" name="title" class="inputs"/>
             <br />
             <label for="color" class="labels">Color: </label>
-            <input type="text" id="color" name="color" class="inputs" />
+            <select id="color" name="color" class="inputs" >
+                <option value="">-- Select color --</option>
+                {% for color in lists['colors'] %}
+                <option value="{{ color }}">{{ color.capitalize() }}</option>
+                {% endfor %}
+            </select>
             <br />
             <label for="quantity" class="labels">Quantity: </label>
-            <input type="number" id="quantity" name="quantity" class="inputs" onblur="checkForm()"/>
+            <input type="number" id="quantity" name="quantity" class="inputs"/>
             <br />
             <label for="gender" class="labels">Gender: </label>
             <select id="gender" name="gender" class="inputs" >
+                <option value="">-- Select gender --</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
             </select>
             <br />
             <label for="category" class="labels">Category</label>
             <select id="category" name="category" class="inputs" >
-                <option value="shirts">Shirts</option>
-                <option value="shoes">Shoes</option>
+                <option value="">-- Select category --</option>
+                {% for category in lists['all_categories'] %}
+                <option value="{{ category }}">{{ category.capitalize() }}</option>
+                {% endfor %}
             </select>
             <br />
             <label for="price" class="labels">Price: </label>
@@ -84,7 +108,7 @@
             <label for="picture" class="labels">Picture: </label>
             <input type="file" id="picture" name="picture" class="inputs" />
             <br />
-            <input type="submit" id="submit" name="submit" class="inputs" />
+            <input type="submit" id="submit" name="submit" class="inputs" value="submit"/>
             <br />
             <span id="error">Qwww</span>
         </form>
@@ -734,7 +758,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="{{ url_for('static', filename='js/price_rangs.js') }}"></script>
     <!-- particles js -->
     <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/jquery.nice-select.min.js') }}"></script>
     <!-- slick js -->
     <script src="{{ url_for('static', filename='js/slick.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/jquery.counterup.min.js') }}"></script>

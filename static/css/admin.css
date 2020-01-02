@@ -4,11 +4,14 @@ body {
 
 .labels {
     display: inline-block;
-    width: 10%;
+    width: 30%;
+    min-width: 10%;
+    padding: 3px 20px;
 }
 
 .inputs {
-    width: 15%;
+    width: 50%;
+    min-width: 20%;
 }
 
 #add-item-button {
@@ -35,6 +38,7 @@ body {
 }
 
 #add-new-item-form {
+    padding: 20px;
     background-color: white;
     display: block;
     width: 40%;

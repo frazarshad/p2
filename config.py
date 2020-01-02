@@ -9,7 +9,7 @@ SECRET_KEY = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 # https://remotemysql.com/phpmyadmin/index.php?db=qJRrPgtski
 # and use username and password from above
 
-UPLOAD_FOLDER = ".\\static\\images\\items"  # directory for uploading data
+UPLOAD_FOLDER = ".\\static\\img\\items"  # directory for uploading data
 
 
 

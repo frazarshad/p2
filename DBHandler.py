@@ -94,6 +94,7 @@ class DBHandler:
     def store_item(self, item):
         cursor = None
         db = None
+        serial = None
         try:
             db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
@@ -112,11 +113,11 @@ class DBHandler:
 
         except Exception as e:
             print(e)
-            print(type(e))
         finally:
             db.commit()
             cursor.close()
             db.close()
+            return serial
 
     def get_items(self):
         cursor = None
