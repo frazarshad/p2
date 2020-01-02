@@ -13,7 +13,7 @@ abc.register_blueprint(admin)
 
 @abc.route('/')
 def hello_world():
-    return render_template("mytemplate.html")
+    return render_template("signup.html")
 
 
 def test():
