@@ -3,6 +3,7 @@ from DBHandler import DBHandler
 
 from views.admin_views import admin
 
+categories = ['Accessories', 'Bags', 'Shoes']
 
 abc = Flask(__name__)
 abc.config.from_object('config')
@@ -65,6 +66,13 @@ def login():
             return render_template('login.html', login_failed=True)
     else:
         return render_template('login.html', login_failed=False)
+
+
+@abc.route("/logout")
+def logout():
+    response = make_response(redirect('/login'))
+    response.set_cookie('user', '\0', max_age=0)
+    return redirect('/login')
 
 
 if __name__ == '__main__':
