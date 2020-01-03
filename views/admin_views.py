@@ -22,7 +22,7 @@ def admin_page():
 @admin.route('/admin_add_item', methods=['POST'])
 def admin_add_item():
     if len(request.form) != 0:
-        item = Item(
+        item = [
             request.form.get('title'),
             request.form.get('color'),
             request.form.get('quantity'),
@@ -30,7 +30,7 @@ def admin_add_item():
             request.form.get('gender'),
             request.form.get('price'),
             request.form.get('manufacturer'),
-        )
+        ]
         db = DBHandler(current_app.config['DATABASEIP'], current_app.config['PORT'], current_app.config['DB_USER'],
                        current_app.config['DB_PASSWORD'], current_app.config['DATABASE'])
         serial_number = db.store_item(item)

@@ -106,7 +106,7 @@ class DBHandler:
             while not added:
                 try:
                     serial = self.generate_serial()
-                    cursor.execute(query, [serial]+item.as_args())
+                    cursor.execute(query, [serial]+item)
                     added = True
                 except:
                     pass

@@ -34,7 +34,6 @@ abc.add_url_rule("/test", "tt", test)
 @abc.route('/signup', methods=['POST', 'GET'])
 def signup():
     error = None
-    db = None
     try:
         print("Test")
         password = request.form['password']
@@ -49,9 +48,7 @@ def signup():
         return resp
 
     except Exception as e:
-        print(e)
-        error = str(e)
-        return render_template('login.html', error=error)
+        return render_template('signup.html', error=error)
 
 
 @abc.route("/login", methods=['POST', 'GET'])
