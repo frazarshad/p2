@@ -1,3 +1,4 @@
+from item import Item
 import pymysql
 from random import Random
 
@@ -122,19 +123,22 @@ class DBHandler:
     def get_items(self):
         cursor = None
         db = None
+        items = []
         try:
             db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cursor = db.cursor()
             query = "SELECT * FROM items"
             cursor.execute(query)
-            print(cursor.fetchall())
+            for item in cursor.fetchall():
+                items.append(Item(*item))
 
         except Exception as e:
             print(e)
         finally:
             cursor.close()
             db.close()
+            return items
 
 
 
