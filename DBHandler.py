@@ -112,13 +112,13 @@ class DBHandler:
                 except:
                     pass
 
+            db.commit()
+            return serial
         except Exception as e:
             print(e)
         finally:
-            db.commit()
             cursor.close()
             db.close()
-            return serial
 
     def get_items(self):
         cursor = None
@@ -133,12 +133,49 @@ class DBHandler:
             for item in cursor.fetchall():
                 items.append(Item(*item))
 
+            return items
         except Exception as e:
             print(e)
         finally:
             cursor.close()
             db.close()
-            return items
+
+    def delete_item(self, serial):
+        cursor = None
+        db = None
+        try:
+            db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cursor = db.cursor()
+            query = "DELETE FROM items WHERE serial=%s;"
+            cursor.execute(query, serial)
+            db.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False
+        finally:
+            cursor.close()
+            db.close()
+
+    def change_item(self, serial, item):
+        cursor = None
+        db = None
+        try:
+            db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cursor = db.cursor()
+            query = "UPDATE items SET title=%s, color=%s, quantity=%s, category=%s, gender=%s, price=%s," \
+                    " manufacturer=%s WHERE serial=%s"
+            cursor.execute(query, item + [serial])
+            db.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False
+        finally:
+            cursor.close()
+            db.close()
 
 
 

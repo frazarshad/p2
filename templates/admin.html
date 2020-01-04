@@ -32,88 +32,58 @@
 
 <body class="bg-white">
  <!--::add_new_item part start::-->
-    <script>
-        let overlayOn = false;
 
-        function checkForm() {
+    <div id="add-new-item-overlay">
+        <div id="add-new-item-form-container" >
+            <h3 id="add-new-item-form-title">Add new Item</h3>
+            <img src="{{url_for('static', filename='img/close.png')}}" width="25px" height="25px" style="margin: 7px; float: right" onclick="toggleOverlay()"/>
+            <form onsubmit="checkForm()" enctype="multipart/form-data" action="/add_item" method="post" id="add-new-item-form">
 
-            $("#add-new-item-form").submit(function (e) {
-                e.default();
-            })
-            $(".inputs").each(function () {
-                if ($(this).val() == "") {
-                    $(this).css("background-color", "coral");
-                    $("#add-new-item-form").submit(function (e) {
-                        e.preventDefault();
-                    })
-                } else {
-                    $(this).css("background-color", "white");
-                }
-            });
-
-
-            if ($("#quantity").val() < 1) {
-                $("#error").html("Quantity cannot be less than 1");
-            }
-        }
-
-        function toggleOverlay() {
-            if (overlayOn) {
-                $("#add-item-overlay").css("display", "none");
-            } else {
-                $("#add-item-overlay").css("display", "block");
-            }
-            overlayOn = !overlayOn
-        }
-    </script>
-    <div id="add-item-overlay">
-        <form enctype="multipart/form-data" onsubmit="checkForm()" action="/admin_add_item" method="post" id="add-new-item-form">
-            <div><img src="{{url_for('static', filename='img/close.png')}}" width="25px" height="25px" style="margin: 7px; float: right" onclick="toggleOverlay()"/></div>
-
-            <label for="title" class="labels">Title: </label>
-            <input type="text" id="title" name="title" class="inputs"/>
-            <br />
-            <label for="color" class="labels">Color: </label>
-            <select id="color" name="color" class="inputs" >
-                <option value="">-- Select color --</option>
-                {% for color in lists['colors'] %}
-                <option value="{{ color }}">{{ color.capitalize() }}</option>
-                {% endfor %}
-            </select>
-            <br />
-            <label for="quantity" class="labels">Quantity: </label>
-            <input type="number" id="quantity" name="quantity" class="inputs"/>
-            <br />
-            <label for="gender" class="labels">Gender: </label>
-            <select id="gender" name="gender" class="inputs" >
-                <option value="">-- Select gender --</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
-            <br />
-            <label for="category" class="labels">Category</label>
-            <select id="category" name="category" class="inputs" >
-                <option value="">-- Select category --</option>
-                {% for category in lists['all_categories'] %}
-                <option value="{{ category }}">{{ category.capitalize() }}</option>
-                {% endfor %}
-            </select>
-            <br />
-            <label for="price" class="labels">Price: </label>
-            <input type="number" id="price" name="price" class="inputs" />
-            <br />
-            <label for="manufacturer" class="labels">Manufacturer: </label>
-            <input type="text" id="manufacturer" name="manufacturer" class="inputs" />
-            <br />
-            <label for="picture" class="labels">Picture: </label>
-            <input type="file" id="picture" name="picture" class="inputs" />
-            <br />
-            <input type="submit" id="submit" name="submit" class="inputs" value="submit"/>
-            <br />
-            <span id="error">Qwww</span>
-        </form>
+                <label for="title" class="labels">Title: </label>
+                <input type="text" id="title" name="title" class="inputs"/>
+                <br />
+                <label for="color" class="labels">Color: </label>
+                <select id="color" name="color" class="inputs" >
+                    <option value="">-- Select color --</option>
+                    {% for color in lists['colors'] %}
+                    <option value="{{ color }}">{{ color.capitalize() }}</option>
+                    {% endfor %}
+                </select>
+                <br />
+                <label for="quantity" class="labels">Quantity: </label>
+                <input type="number" id="quantity" name="quantity" class="inputs"/>
+                <br />
+                <label for="gender" class="labels">Gender: </label>
+                <select id="gender" name="gender" class="inputs" >
+                    <option value="">-- Select gender --</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+                <br />
+                <label for="category" class="labels">Category</label>
+                <select id="category" name="category" class="inputs" >
+                    <option value="">-- Select category --</option>
+                    {% for category in lists['all_categories'] %}
+                    <option value="{{ category }}">{{ category.capitalize() }}</option>
+                    {% endfor %}
+                </select>
+                <br />
+                <label for="price" class="labels">Price: </label>
+                <input type="number" id="price" name="price" class="inputs" />
+                <br />
+                <label for="manufacturer" class="labels">Manufacturer: </label>
+                <input type="text" id="manufacturer" name="manufacturer" class="inputs" />
+                <br />
+                <label for="picture" class="labels">Picture: </label>
+                <input type="file" id="picture" name="picture" class="inputs" />
+                <br />
+                <input type="submit" id="submit" name="submit"  value="submit"/>
+                <br />
+            </form>
+            <span id="error" style="color: red"></span>
+        </div>
     </div>
-    <a href="#add-item-overlay" onclick="toggleOverlay()" class="float">
+    <a href="#" onclick="changeFormToAdd(); toggleOverlay()" class="float">
         <i class="fa fa-plus my-float"></i>
     </a>
     <!--::add_new_item part end::-->
@@ -228,6 +198,14 @@
     </section>
     <!-- breadcrumb start-->
 
+    <!--====================Wrong Form Data =================-->
+    <!-- wrong form data start -->
+    {% if request.args.get('invalid') == 'True' %}
+    <div style="margin: 5px 40px" class="alert alert-danger" role="alert">
+      The data that you have provided in the form is invalid
+    </div>
+    <!-- wrong form data end -->
+    {% endif %}
     <!--================Category Product Area =================-->
     <section class="cat_product_area section_padding border_top">
         <div class="container">
@@ -385,210 +363,30 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Single item being viewed -->
+                        {% for item in items %}
                         <div class="col-lg-4 col-sm-6">
                             <div class="single_category_product">
                                 <div class="single_category_img">
-                                    <img src="{{ url_for('static', filename='img/category/category_1.png') }}" alt="">
+                                    <img src="{{ url_for('static', filename='img/items/'+item.serial+'.png') }}" alt="">
                                     <div class="category_social_icon">
                                         <ul>
-                                            <li><a href="#"><i class="ti-heart"></i></a></li>
-                                            <li><a href="#"><i class="ti-bag"></i></a></li>
+                                            <li><a href="#" onclick="changeFormToEdit('{{ item.serial }}', '{{ item.title }}', '{{ item.color }}',
+                                            '{{ item.quantity }}', '{{ item.gender }}', '{{ item.category }}', '{{ item.price }}', '{{ item.manufacturer }}');
+                                            toggleOverlay();"><i class="ti-menu-alt"></i></a></li>
+                                            <li><a href="/delete/{{item.serial}}" style="background-color: red"><i class="ti-close"></i></a></li>
                                         </ul>
                                     </div>
                                     <div class="category_product_text">
-                                        <a href="single-product.html"><h5>Long Sleeve TShirt</h5></a>
-                                        <p>$150.00</p>
+                                        <a href="single-product.html"><h5>{{ item.title }}</h5></a>
+                                        <p>Rs. {{ item.price }}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_category_product">
-                                <div class="single_category_img">
-                                    <img src="{{ url_for('static', filename='img/category/category_2.png') }}" alt="">
-                                    <div class="category_social_icon">
-                                        <ul>
-                                            <li><a href="#"><i class="ti-heart"></i></a></li>
-                                            <li><a href="#"><i class="ti-bag"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="category_product_text">
-                                        <a href="single-product.html"><h5>Long Sleeve TShirt</h5></a>
-                                        <p>$150.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_category_product">
-                                <div class="single_category_img">
-                                    <img src="{{ url_for('static', filename='img/category/category_3.png') }}" alt="">
-                                    <div class="category_social_icon">
-                                        <ul>
-                                            <li><a href="#"><i class="ti-heart"></i></a></li>
-                                            <li><a href="#"><i class="ti-bag"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="category_product_text">
-                                        <a href="single-product.html"><h5>Long Sleeve TShirt</h5></a>
-                                        <p>$150.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_category_product">
-                                <div class="single_category_img">
-                                    <img src="{{ url_for('static', filename='img/category/category_4.png') }}" alt="">
-                                    <div class="category_social_icon">
-                                        <ul>
-                                            <li><a href="#"><i class="ti-heart"></i></a></li>
-                                            <li><a href="#"><i class="ti-bag"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="category_product_text">
-                                        <a href="single-product.html"><h5>Long Sleeve TShirt</h5></a>
-                                        <p>$150.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_category_product">
-                                <div class="single_category_img">
-                                    <img src="{{ url_for('static', filename='img/category/category_5.png') }}" alt="">
-                                    <div class="category_social_icon">
-                                        <ul>
-                                            <li><a href="#"><i class="ti-heart"></i></a></li>
-                                            <li><a href="#"><i class="ti-bag"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="category_product_text">
-                                        <a href="single-product.html"><h5>Long Sleeve TShirt</h5></a>
-                                        <p>$150.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_category_product">
-                                <div class="single_category_img">
-                                    <img src="{{ url_for('static', filename='img/category/category_6.png') }}" alt="">
-                                    <div class="category_social_icon">
-                                        <ul>
-                                            <li><a href="#"><i class="ti-heart"></i></a></li>
-                                            <li><a href="#"><i class="ti-bag"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="category_product_text">
-                                        <a href="single-product.html"><a href="single-product.html"><h5>Long Sleeve TShirt</h5></a></a>
-                                        <p>$150.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_category_product">
-                                <div class="single_category_img">
-                                    <img src="{{ url_for('static', filename='img/category/category_7.png') }}" alt="">
-                                    <div class="category_social_icon">
-                                        <ul>
-                                            <li><a href="#"><i class="ti-heart"></i></a></li>
-                                            <li><a href="#"><i class="ti-bag"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="category_product_text">
-                                        <a href="single-product.html"><h5>Long Sleeve TShirt</h5></a>
-                                        <p>$150.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_category_product">
-                                <div class="single_category_img">
-                                    <img src="{{ url_for('static', filename='img/category/category_8.png') }}" alt="">
-                                    <div class="category_social_icon">
-                                        <ul>
-                                            <li><a href="#"><i class="ti-heart"></i></a></li>
-                                            <li><a href="#"><i class="ti-bag"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="category_product_text">
-                                        <a href="single-product.html"><h5>Long Sleeve TShirt</h5></a>
-                                        <p>$150.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> 
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_category_product">
-                                <div class="single_category_img">
-                                    <img src="{{ url_for('static', filename='img/category/category_9.png') }}" alt="">
-                                    <div class="category_social_icon">
-                                        <ul>
-                                            <li><a href="#"><i class="ti-heart"></i></a></li>
-                                            <li><a href="#"><i class="ti-bag"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="category_product_text">
-                                        <a href="single-product.html"><h5>Long Sleeve TShirt</h5></a>
-                                        <p>$150.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> 
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_category_product">
-                                <div class="single_category_img">
-                                    <img src="{{ url_for('static', filename='img/category/category_10.png') }}" alt="">
-                                    <div class="category_social_icon">
-                                        <ul>
-                                            <li><a href="#"><i class="ti-heart"></i></a></li>
-                                            <li><a href="#"><i class="ti-bag"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="category_product_text">
-                                        <a href="single-product.html"><h5>Long Sleeve TShirt</h5></a>
-                                        <p>$150.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> 
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_category_product">
-                                <div class="single_category_img">
-                                    <img src="{{ url_for('static', filename='img/category/category_11.png') }}" alt="">
-                                    <div class="category_social_icon">
-                                        <ul>
-                                            <li><a href="#"><i class="ti-heart"></i></a></li>
-                                            <li><a href="#"><i class="ti-bag"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="category_product_text">
-                                        <a href="single-product.html"><h5>Long Sleeve TShirt</h5></a>
-                                        <p>$150.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> 
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_category_product">
-                                <div class="single_category_img">
-                                    <img src="{{ url_for('static', filename='img/category/category_12.png') }}" alt="">
-                                    <div class="category_social_icon">
-                                        <ul>
-                                            <li><a href="#"><i class="ti-heart"></i></a></li>
-                                            <li><a href="#"><i class="ti-bag"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="category_product_text">
-                                        <a href="single-product.html"><h5>Long Sleeve TShirt</h5></a>
-                                        <p>$150.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
+
                         <div class="col-lg-12 text-center">
                             <a href="#" class="btn_2">More Items</a>
                         </div>
@@ -769,6 +567,42 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="{{ url_for('static', filename='js/mail-script.js') }}"></script>
     <!-- custom js -->
     <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+    <script>
+        let overlayOn = false;
+
+        function toggleOverlay() {
+            if (overlayOn) {
+                $("#add-new-item-overlay").css("display", "none");
+            } else {
+                $("#add-new-item-overlay").css("display", "block");
+            }
+            overlayOn = !overlayOn
+        }
+
+        function changeFormToEdit(serial, title, color, quantity, gender, category, price, manufacturer) {
+            $("#add-new-item-form").attr("action", "/edit_item/"+serial);
+            $("#add-new-item-form-title").html("Edit Item No." + serial);
+
+            $("#title").val(title);
+            $("#color").val(color);
+            $("#quantity").val(quantity);
+            $("#gender").val(gender);
+            $("#category").val(category);
+            $("#price").val(price);
+            $("#manufacturer").val(manufacturer);
+
+        }
+        function changeFormToAdd() {
+            $("#add-new-item-form").attr("action", "/add_item");
+            $("#add-new-item-form-title").html("Add new item");
+
+            $(".inputs").each(function () {
+                $(this).val("");
+            });
+        }
+
+
+    </script>
 </body>
 
 </html>
