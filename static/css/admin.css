@@ -9,6 +9,11 @@ body {
     padding: 3px 20px;
 }
 
+.page-arrow {
+    margin: 10px;
+    font-size: 30px;
+}
+
 .inputs {
     width: 50%;
     min-width: 20%;

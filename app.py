@@ -5,14 +5,14 @@ from views.admin_views import admin
 
 # lists has been moved to lists.py
 
-abc = Flask(__name__)
+abc = Flask(__name__, template_folder='templates')
 abc.config.from_object('config')
 
 abc.register_blueprint(admin)
 
 
 @abc.route('/')
-def hello_world():
+def index():
     return render_template("signup.html")
 
 

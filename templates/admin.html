@@ -37,7 +37,7 @@
         <div id="add-new-item-form-container" >
             <h3 id="add-new-item-form-title">Add new Item</h3>
             <img src="{{url_for('static', filename='img/close.png')}}" width="25px" height="25px" style="margin: 7px; float: right" onclick="toggleOverlay()"/>
-            <form onsubmit="checkForm()" enctype="multipart/form-data" action="/add_item" method="post" id="add-new-item-form">
+            <form onsubmit="checkForm()" enctype="multipart/form-data" action="" method="post" id="add-new-item-form">
 
                 <label for="title" class="labels">Title: </label>
                 <input type="text" id="title" name="title" class="inputs"/>
@@ -83,9 +83,9 @@
             <span id="error" style="color: red"></span>
         </div>
     </div>
-    <a href="#" onclick="changeFormToAdd(); toggleOverlay()" class="float">
+    <span onclick="changeFormToAdd(); toggleOverlay()" class="float">
         <i class="fa fa-plus my-float"></i>
-    </a>
+    </span>
     <!--::add_new_item part end::-->
     <!--::header part start::-->
     <header class="main_menu home_menu">
@@ -189,7 +189,7 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb_iner">
                         <div class="breadcrumb_iner_item">
-                            <p>Home / Category</p>
+                            <p>Home / Admin</p>
                         </div>
                     </div>
                 </div>
@@ -218,44 +218,11 @@
                             </div>
                             <div class="widgets_inner">
                                 <ul class="list">
+                                    {% for category in lists[gender_main+'_categories'] %}
                                     <li>
-                                        <a href="#">Fruits and Vegetables</a>
+                                        <a href="{{url_for('admin.page_admin_page', gender=gender_main, category=category)}}">{{category.capitalize()}}</a>
                                     </li>
-                                    <li class="sub-menu">
-                                        <a href="#Electronics" class=" d-flex justify-content-between">
-                                            Electronics
-                                            <div class="right ti-plus"></div>
-                                        </a>
-                                        <ul>
-                                            <li>
-                                                <a href="#Electronics">Home Appliances</a>
-                                            </li>
-                                            <li>
-                                                <a href="#Electronics">Smartphones</a>
-                                            </li>
-                                            <li>
-                                                <a href="#Electronics">Kitchen Appliances</a>
-                                            </li>
-                                            <li>
-                                                <a href="#Electronics">Computer Accessories</a>
-                                            </li>
-                                            <li>
-                                                <a href="#Electronics">Meat Alternatives</a>
-                                            </li>
-                                            <li>
-                                                <a href="#Electronics">Appliances</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#">Cooking</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Beverages</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Home and Cleaning</a>
-                                    </li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                         </aside>
@@ -290,26 +257,14 @@
                                 </ul>
                                 <ul class="list">
                                     <p>color</p>
+                                    {% for color_ in lists['colors'] %}
                                     <li>
-                                        <input type="radio" aria-label="Radio button for following text input">
-                                        <a href="#">Black</a>
+                                        <input type="radio" name="color-select" aria-label="Radio button for following text input"
+                                        onclick="window.location.replace('{{ url_for('admin.page_admin_page', gender=gender_main, category=category_main, color=color_) }}')"
+                                        {{ 'checked' if request.args.get('color') == color_ }}>
+                                        <span>{{ color_.capitalize() }}</span>
                                     </li>
-                                    <li>
-                                        <input type="radio" aria-label="Radio button for following text input">
-                                        <a href="#">Black Leather</a>
-                                    </li>
-                                    <li>
-                                        <input type="radio" aria-label="Radio button for following text input">
-                                        <a href="#">Black with red</a>
-                                    </li>
-                                    <li>
-                                        <input type="radio" aria-label="Radio button for following text input">
-                                        <a href="#">Gold</a>
-                                    </li>
-                                    <li>
-                                        <input type="radio" aria-label="Radio button for following text input">
-                                        <a href="#">Spacegrey</a>
-                                    </li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                         </aside>
@@ -342,7 +297,7 @@
                         <div class="col-lg-12">
                             <div class="product_top_bar d-flex justify-content-between align-items-center">
                                 <div class="single_product_menu product_bar_item">
-                                    <h2>Womans (12)</h2>
+                                    <h2>{{gender_main.capitalize()}} / {{category_main.capitalize()}}</h2>
                                 </div>
                                 <div class="product_top_bar_iner product_bar_item d-flex">
                                     <div class="product_bar_single">
@@ -363,32 +318,44 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Single item being viewed -->
-                        {% for item in items %}
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_category_product">
-                                <div class="single_category_img">
-                                    <img src="{{ url_for('static', filename='img/items/'+item.serial+'.png') }}" alt="">
-                                    <div class="category_social_icon">
-                                        <ul>
-                                            <li><a href="#" onclick="changeFormToEdit('{{ item.serial }}', '{{ item.title }}', '{{ item.color }}',
-                                            '{{ item.quantity }}', '{{ item.gender }}', '{{ item.category }}', '{{ item.price }}', '{{ item.manufacturer }}');
-                                            toggleOverlay();"><i class="ti-menu-alt"></i></a></li>
-                                            <li><a href="/delete/{{item.serial}}" style="background-color: red"><i class="ti-close"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="category_product_text">
-                                        <a href="single-product.html"><h5>{{ item.title }}</h5></a>
-                                        <p>Rs. {{ item.price }}</p>
+                        {% if items|length != 0 %}
+                            <!-- Single item being viewed -->
+                            {% for item in items %}
+                            <div class="col-lg-4 col-sm-6">
+                                <div class="single_category_product">
+                                    <div class="single_category_img">
+                                        <img src="{{ url_for('static', filename='img/items/'+item.serial+'.png') }}" alt="">
+                                        <div class="category_social_icon">
+                                            <ul>
+                                                <li><a href="#" onclick="changeFormToEdit('{{ item.serial }}', '{{ item.title }}', '{{ item.color }}',
+                                                '{{ item.quantity }}', '{{ item.gender }}', '{{ item.category }}', '{{ item.price }}', '{{ item.manufacturer }}');
+                                                toggleOverlay();"><i class="ti-menu-alt"></i></a></li>
+                                                <li><a href="/delete/{{item.serial}}" style="background-color: red"><i class="ti-close"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="category_product_text">
+                                            <a href="single-product.html"><h5>{{ item.title }}</h5></a>
+                                            <p>Rs. {{ item.price }}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        {% endfor %}
+                            {% endfor %}
 
+                        {% else %}<h2 style="
+                                        margin: auto;
+                                        font-weight: 100;
+                                        margin-bottom: 100;
+                                    ">No items.</h2>
+                        {% endif %}
                         <div class="col-lg-12 text-center">
-                            <a href="#" class="btn_2">More Items</a>
+                            <i class="ti-angle-double-left page-arrow"></i>
+                            <i class="ti-angle-left page-arrow"></i>
+                            <select  style="vertical-align: super">
+                                <option value="1">1</option>
+                            </select>
+                            <i class="ti-angle-right page-arrow"></i>
+                            <i class="ti-angle-double-right page-arrow"></i>
                         </div>
                     </div>
                 </div>
@@ -600,7 +567,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                 $(this).val("");
             });
         }
-
 
     </script>
 </body>
