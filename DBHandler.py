@@ -120,7 +120,7 @@ class DBHandler:
             cursor.close()
             db.close()
 
-    def get_items(self, color='%', gender='%', category='%', start=0, stop='INT_MAX'):
+    def get_items(self, color='%', gender='%', category='%'):
         cursor = None
         db = None
         items = []
@@ -128,8 +128,7 @@ class DBHandler:
             db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cursor = db.cursor()
-            query = "SELECT * FROM items WHERE color LIKE %s AND gender LIKE %s AND category LIKE %s OFFSET %s ROWS FETCH NEXT " \
-                    "%s ROWS ONLY "
+            query = "SELECT * FROM items WHERE color LIKE %s AND gender LIKE %s AND category LIKE %s"
             cursor.execute(query, [color, gender, category])
             for item in cursor.fetchall():
                 items.append(Item(*item))

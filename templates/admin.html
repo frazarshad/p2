@@ -233,35 +233,12 @@
                             </div>
                             <div class="widgets_inner">
                                 <ul class="list">
-                                    <p>Brands</p>
-                                    <li>
-                                        <input type="radio" aria-label="Radio button for following text input">
-                                        <a href="#">Apple</a>
-                                    </li>
-                                    <li>
-                                        <input type="radio" aria-label="Radio button for following text input">
-                                        <a href="#">Asus</a>
-                                    </li>
-                                    <li class="active">
-                                        <input type="radio" aria-label="Radio button for following text input">
-                                        <a href="#">Gionee</a>
-                                    </li>
-                                    <li>
-                                        <input type="radio" aria-label="Radio button for following text input">
-                                        <a href="#">Micromax</a>
-                                    </li>
-                                    <li>
-                                        <input type="radio" aria-label="Radio button for following text input">
-                                        <a href="#">Samsung</a>
-                                    </li>
-                                </ul>
-                                <ul class="list">
                                     <p>color</p>
                                     {% for color_ in lists['colors'] %}
                                     <li>
                                         <input type="radio" name="color-select" aria-label="Radio button for following text input"
-                                        onclick="window.location.replace('{{ url_for('admin.page_admin_page', gender=gender_main, category=category_main, color=color_) }}')"
-                                        {{ 'checked' if request.args.get('color') == color_ }}>
+                                        onclick="runCriteriaChange()"
+                                        {{ 'checked' if request.args.get('color') == color_ }} value="{{ color_ }}">
                                         <span>{{ color_.capitalize() }}</span>
                                     </li>
                                     {% endfor %}
@@ -309,10 +286,10 @@
                                         </select>
                                     </div>
                                     <div class="product_bar_single">
-                                        <select>
-                                            <option data-display="Show 12">Show 12</option>
-                                            <option value="1">Show 20</option>
-                                            <option value="2">Show 30</option>
+                                        <select onchange="runCriteriaChange()" id="to-show" >
+                                            <option value="12" {{ 'selected' if show == 12 }}>Show 12</option>
+                                            <option value="20" {{ 'selected' if show == 20}}>Show 20</option>
+                                            <option value="30" {{' selected' if show == 30}}>Show 30</option>
                                         </select>
                                     </div>
                                 </div>
@@ -352,7 +329,9 @@
                             <i class="ti-angle-double-left page-arrow"></i>
                             <i class="ti-angle-left page-arrow"></i>
                             <select  style="vertical-align: super">
-                                <option value="1">1</option>
+                                {% for i in range(1, pages+1) %}
+                                <option value="{{ i }}">{{ i }}</option>
+                                {% endfor %}
                             </select>
                             <i class="ti-angle-right page-arrow"></i>
                             <i class="ti-angle-double-right page-arrow"></i>
@@ -566,6 +545,13 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
             $(".inputs").each(function () {
                 $(this).val("");
             });
+        }
+
+        function runCriteriaChange() {
+            let color = $("input[name='color-select']:checked").val()
+            let to_show = $("#to-show").val();
+
+            window.location.replace(`/admin/{{gender_main}}/{{category_main}}/1?color=${color}&show=${to_show}`);
         }
 
     </script>

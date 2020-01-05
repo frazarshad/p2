@@ -23,21 +23,27 @@ def page_admin_page(gender, category, invalid=False):
     return redirect(url_for('admin.admin_page', gender=gender, category=category, page_no=1, invalid=invalid))
 
 
-@admin.route('/admin/<gender>/<category>/<page_no>')
+@admin.route('/admin/<gender>/<category>/<int:page_no>')
 def admin_page(gender, category, page_no, invalid=False):
     # if request.cookies.get('user') != 'admin':
     #   return redirect(url_for('index'))
 
     color = request.args.get('color') if request.args.get('color') else '%'
-    show = 12
+    show = int(request.args.get('show')) if request.args.get('show') else 12
+
     # Checking whether all values provided are correct
     if gender not in lists['genders'] or (category not in lists[gender+'_categories'] and category != 'all'):
         return redirect(url_for('admin.blank_admin_page'))
 
     db = DBHandler(current_app.config['DATABASEIP'], current_app.config['PORT'], current_app.config['DB_USER'],
                    current_app.config['DB_PASSWORD'], current_app.config['DATABASE'])
-    items = db.get_items(color, gender, category, start=(1*page_no)-1, stop=show*page_no)
-    return render_template('admin.html', gender_main=gender, category_main=category, page_no_main=page_no, invlaid=invalid, items=items, lists=lists)
+    items = db.get_items(color, gender, category)
+    lower_limit = (1*page_no)-1
+    upper_limit = show*page_no
+
+    return render_template('admin.html', gender_main=gender, category_main=category, page_no_main=page_no,
+                           invlaid=invalid, items=items[lower_limit:upper_limit], lists=lists, pages=int((len(items)/show)+1),
+                           show=show)
 
 
 @admin.route('/add_item', methods=['POST'])
