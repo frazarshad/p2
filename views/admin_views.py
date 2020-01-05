@@ -30,6 +30,8 @@ def admin_page(gender, category, page_no, invalid=False):
 
     color = request.args.get('color') if request.args.get('color') else '%'
     show = int(request.args.get('show')) if request.args.get('show') else 12
+    price_start = int(request.args.get('start_amount')) if request.args.get('start_amount') else 0
+    price_end = int(request.args.get('end_amount')) if request.args.get('end_amount') else 1000
 
     # Checking whether all values provided are correct
     if gender not in lists['genders'] or (category not in lists[gender+'_categories'] and category != 'all'):
@@ -37,9 +39,9 @@ def admin_page(gender, category, page_no, invalid=False):
 
     db = DBHandler(current_app.config['DATABASEIP'], current_app.config['PORT'], current_app.config['DB_USER'],
                    current_app.config['DB_PASSWORD'], current_app.config['DATABASE'])
-    items = db.get_items(color, gender, category)
-    lower_limit = (1*page_no)-1
-    upper_limit = show*page_no
+    items = db.get_items(color, gender, category, price_start, price_end)
+    lower_limit = show * (page_no-1)
+    upper_limit = show * page_no
 
     return render_template('admin.html', gender_main=gender, category_main=category, page_no_main=page_no,
                            invlaid=invalid, items=items[lower_limit:upper_limit], lists=lists, pages=int((len(items)/show)+1),

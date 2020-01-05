@@ -2378,19 +2378,19 @@ var $range = $(".js-range-slider"),
     $inputTo = $(".js-input-to"),
     instance,
     min = 0,
-    max = 1000,
+    max = 100000,
     from = 10,
     to = 100;
-
 $range.ionRangeSlider({
     type: "double",
     min: min,
     max: max,
     from: 0,
-    to: 500,
+    to: max,
   prefix: 'tk. ',
     onStart: updateInputs,
     onChange: updateInputs,
+    onFinish: runCriteriaChange,
     step: 1,
     prettify_enabled: true,
     prettify_separator: ".",
@@ -2407,7 +2407,7 @@ function updateInputs (data) {
     to = data.to;
     
     $inputFrom.prop("value", from);
-    $inputTo.prop("value", to); 
+    $inputTo.prop("value", to);
 }
 
 $inputFrom.on("input", function () {

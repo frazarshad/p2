@@ -120,7 +120,8 @@ class DBHandler:
             cursor.close()
             db.close()
 
-    def get_items(self, color='%', gender='%', category='%'):
+    def get_items(self, color='%', gender='%', category='all', price_start=0, price_end=100000):
+        category = '%' if category == 'all' else category
         cursor = None
         db = None
         items = []
@@ -128,8 +129,9 @@ class DBHandler:
             db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cursor = db.cursor()
-            query = "SELECT * FROM items WHERE color LIKE %s AND gender LIKE %s AND category LIKE %s"
-            cursor.execute(query, [color, gender, category])
+            query = "SELECT * FROM items WHERE color LIKE %s AND gender LIKE %s AND category LIKE %s AND price>=%s " \
+                    "AND price<=%s"
+            cursor.execute(query, [color, gender, category, price_start, price_end])
             for item in cursor.fetchall():
                 items.append(Item(*item))
 
