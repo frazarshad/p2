@@ -73,6 +73,17 @@ def logout():
     response.set_cookie('user', '\0', max_age=0)
     return redirect('/login')
 
+@abc.route("/browsing/<serial>")
+def detail(serial):
+        int(serial)
+        db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
+                   abc.config["DATABASE"])
+        done = db.item_detail(serial)
+        if done is None:
+            return redirect('/')
+        else:
+            return render_template('detail.html', done)
+
 
 if __name__ == '__main__':
     abc.run()
