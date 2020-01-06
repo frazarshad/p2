@@ -2,6 +2,7 @@ from flask import Flask, request, make_response, render_template, redirect
 from DBHandler import DBHandler
 
 from views.admin_views import admin
+from views.category_views import category
 
 # lists has been moved to lists.py
 
@@ -9,6 +10,7 @@ abc = Flask(__name__, template_folder='templates')
 abc.config.from_object('config')
 
 abc.register_blueprint(admin)
+abc.register_blueprint(category)
 
 
 @abc.route('/')
