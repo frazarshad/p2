@@ -180,6 +180,37 @@ class DBHandler:
             cursor.close()
             db.close()
 
+    def item_detail(self, serial):
+        cursor = None
+        db = None
+        myList = []
+        try:
+            db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cursor = db.cursor()
+            query = "SELECT * FROM shop where serial=%s"
+            args = (serial)
+            cursor.execute(query, args)
+            user = ""
+
+            for row in cursor.fetchall():
+                user += "serial:" + row[0]
+                user += "title:" + row[1]
+                user += "color:" + row[2]
+                user += "quantity:" + row[3]
+                '''user += "category:" + row[4]
+                user += "gender:" + row[5]
+                user += "price:" + row[6]
+                user += "manufacturer:" + row[7]
+'''
+                myList.append(user)
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            db.close()
+
+            return myList
 
 
 def Test():
