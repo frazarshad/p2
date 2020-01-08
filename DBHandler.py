@@ -202,8 +202,6 @@ class DBHandler:
             cursor.close()
             db.close()
 
-            return myList
-
     def get_top_bought_items(self):
         cursor = None
         db = None
