@@ -1,5 +1,8 @@
 {% extends 'browsing_template.html' %}
 
+{% block title %}Category{% endblock %}
+
+
 {% block item_view %}
         {% for item in items %}
         <div class="col-lg-4 col-sm-6 animated fadeInUp">
@@ -8,8 +11,8 @@
                     <img src="{{ url_for('static', filename='img/items/'+item.serial+'.png') }}" alt="">
                     <div class="category_social_icon">
                         <ul>
-                            <li><a href="#"><i class="ti-heart"></i></a></li>
-                            <li><a href="#"><i class="ti-bag"></i></a></li>
+                            <li><a href="#"><i class="ti-shopping-cart-full"></i></a></li>
+                            <li><a href="#"><i class="ti-list"></i></a></li>
                         </ul>
                     </div>
                     <div class="category_product_text">

@@ -8,6 +8,6 @@ class Item:
         self.quantity = int(quantity)
         self.category = category
         self.gender = gender
-        self.price = float(price)
+        self.price = int(price)
         self.manufacturer = manufacturer
         self.bought = bought
