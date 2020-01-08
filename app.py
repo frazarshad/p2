@@ -15,14 +15,10 @@ abc.register_blueprint(category)
 
 @abc.route('/')
 def index():
-    return render_template("signup.html")
-
-
-def test():
-    return "My Hello"
-
-
-abc.add_url_rule("/test", "tt", test)
+    db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
+                   abc.config["DATABASE"])
+    items = db.get_top_bought_items()
+    return render_template("index.html", items=items)
 
 
 @abc.route('/signup', methods=['POST', 'GET'])
@@ -72,6 +68,7 @@ def logout():
     response = make_response(redirect('/login'))
     response.set_cookie('user', '\0', max_age=0)
     return redirect('/login')
+
 
 @abc.route("/browsing/<serial>")
 def detail(serial):
