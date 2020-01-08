@@ -15,7 +15,7 @@ abc.register_blueprint(category)
 
 @abc.route('/')
 def index():
-    return render_template("signup.html")
+    return render_template("cart.html")
 
 
 def test():
@@ -83,6 +83,11 @@ def detail(serial):
             return redirect('/')
         else:
             return render_template('detail.html', done)
+
+@abc.route("/during_detail/<serial>")
+def during_detail(serial):
+    resp=make_response(render_template('mytemplate.html'))
+    resp.set_cookie('serial', serial)
 
 
 if __name__ == '__main__':
