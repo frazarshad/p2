@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+ <section class="breadcrumb breadcrumb_bg">
+      <div class="container">
+          <div class="row justify-content-center">
+              <div class="col-lg-12">
+                  <div class="breadcrumb_iner">
+                      <div class="breadcrumb_iner_item">
+                          <p>Home/Shop/Single product/Detail</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  <section class="cart_area section_padding">
+    <div class="container">
+      <div class="cart_inner">
+        <div class="table-responsive">
+          <table class="table">
+{% block item_view %}
+        {% for item in items %}
+        <div class="col-lg-4 col-sm-6 animated fadeInUp">
+            <div class="single_category_product">
+                <div class="single_category_img">
+                    <img src="{{ url_for('static', filename='img/items/'+item.serial+'.png') }}" alt="">
+                    <div class="category_social_icon">
+                        <ul>
+                            <li><a href="#"><i class="ti-heart"></i></a></li>
+                            <li><a href="#"><i class="ti-bag"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="category_product_text">
+                        <table>
+                            <tr>
+                                <td>Title:{{item.title}}</td>
+                            </tr>
+                            <tr>
+                                <td>Color:{{item.color}}</td>
+                            </tr>
+                            <tr>
+                                <td>Quantity:{{item.quantity}}</td>
+                            </tr>
+                            <tr>
+                                <td>Category:{{item.category}}</td>
+                            </tr>
+                            <tr>
+                                <td>manufacturer:{{item.manufacturer}}</td>
+                            </tr>
+                            <tr>
+                                <td>Price:{{item.price}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+<a href="during_detail">ADD TO CART</a>
+YOU want to add more items
+<a href="browsing">YES</a>
+<a href="cart">NO</a>
+</body>
+</html>

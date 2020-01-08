@@ -81,6 +81,11 @@ def detail(serial):
         else:
             return render_template('detail.html', done)
 
+@abc.route("/during_detail/<serial>")
+def during_detail(serial):
+    resp=make_response(render_template('mytemplate.html'))
+    resp.set_cookie('serial', serial)
+
 
 if __name__ == '__main__':
     abc.run()
