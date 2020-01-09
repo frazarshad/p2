@@ -64,7 +64,7 @@ def admin_add_item():
             int(request.form.get('quantity')),
             request.form.get('category'),
             request.form.get('gender'),
-            float(request.form.get('price')),
+            int(request.form.get('price')),
             request.form.get('manufacturer'),
         ]
 
@@ -120,7 +120,7 @@ def edit_item(serial):
             int(request.form.get('quantity')),
             request.form.get('category'),
             request.form.get('gender'),
-            float(request.form.get('price')),
+            int(request.form.get('price')),
             request.form.get('manufacturer'),
         ]
         if validate_form_data(item):
@@ -153,7 +153,7 @@ def validate_form_data(item):
             item[2] < 1 or \
             item[4] not in lists['genders'] or \
             item[3] not in lists[item[4] + '_categories'] or \
-            item[5] < 0.0:
+            item[5] < 0:
         return False
 
     return True

@@ -139,6 +139,7 @@ class DBHandler:
             return items
         except Exception as e:
             print(e)
+            return []
         finally:
             cursor.close()
             db.close()
@@ -197,6 +198,27 @@ class DBHandler:
 
         except Exception as e:
             print(e)
+        finally:
+            cursor.close()
+            db.close()
+
+    def get_top_bought_items(self):
+        cursor = None
+        db = None
+        items = []
+        try:
+            db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cursor = db.cursor()
+            query = "SELECT * FROM items ORDER BY bought DESC LIMIT 6"
+            cursor.execute(query)
+
+            for item in cursor.fetchall():
+                items.append(Item(*item))
+            return items
+        except Exception as e:
+            print(e)
+            return []
         finally:
             cursor.close()
             db.close()

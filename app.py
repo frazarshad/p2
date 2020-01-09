@@ -15,14 +15,10 @@ abc.register_blueprint(category)
 
 @abc.route('/')
 def index():
-    return render_template("cart.html")
-
-
-def test():
-    return "My Hello"
-
-
-abc.add_url_rule("/test", "tt", test)
+    db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
+                   abc.config["DATABASE"])
+    items = db.get_top_bought_items()
+    return render_template("index.html", items=items)
 
 
 @abc.route('/signup', methods=['POST', 'GET'])
@@ -73,6 +69,7 @@ def logout():
     response.set_cookie('user', '\0', max_age=0)
     return redirect('/login')
 
+
 @abc.route("/browsing/<serial>")
 def detail(serial):
         int(serial)
@@ -84,10 +81,12 @@ def detail(serial):
         else:
             return render_template('detail.html', done)
 
+
 @abc.route("/during_detail/<serial>")
 def during_detail(serial):
-    resp=make_response(render_template('mytemplate.html'))
-    resp.set_cookie('serial', serial)
+    resp = make_response(render_template('mytemplate.html'))
+    resp.set_cookie('serial', (request.cookies.get('serial') + ':' if request.cookies.get('serial') else '') + serial)
+    return resp
 
 
 if __name__ == '__main__':
