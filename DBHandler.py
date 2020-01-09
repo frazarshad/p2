@@ -183,7 +183,6 @@ class DBHandler:
     def item_detail(self, serial):
         cursor = None
         db = None
-        items = []
         try:
             db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
@@ -191,9 +190,10 @@ class DBHandler:
             query = "SELECT * FROM items WHERE serial LIKE %s"
             args = (serial)
             cursor.execute(query,args)
-            for item in cursor.fetchall():
-                items.append(Item(*item))
-            return items
+            serial, title, date_added, color, quantity, category, gender, price, manufacturer=cursor.fetchall()
+
+           # Item items(serial, title, date_added, color, quantity, category, gender, price, manufacturer)
+            #return items
 
         except Exception as e:
             print(e)
