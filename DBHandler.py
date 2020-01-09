@@ -192,9 +192,8 @@ class DBHandler:
             args = (serial)
             cursor.execute(query,args)
             serial, title, date_added, color, quantity, category, gender, price, manufacturer=cursor.fetchall()
-
-           # Item items(serial, title, date_added, color, quantity, category, gender, price, manufacturer)
-            #return items
+            Item (serial, title, date_added, color, quantity, category, gender, price, manufacturer)
+            return Item
 
         except Exception as e:
             print(e)
