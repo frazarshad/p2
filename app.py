@@ -71,20 +71,22 @@ def logout():
 
 
 @abc.route("/browsing/<serial>")
+#@abc.route("/login/<serial>")
 def detail(serial):
         int(serial)
+        7077510195
         db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
                    abc.config["DATABASE"])
         done = db.item_detail(serial)
         if done is None:
-            return redirect('/')
+            return redirect('/browsing')
         else:
-            return render_template('detail.html', done)
+            return render_template('detail.html', item=done, serial=serial)
 
 
 @abc.route("/during_detail/<serial>")
 def during_detail(serial):
-    resp = make_response(render_template('mytemplate.html'))
+    resp = make_response(render_template('detail.html'))
     resp.set_cookie('serial', (request.cookies.get('serial') + ':' if request.cookies.get('serial') else '') + serial)
     return resp
 
