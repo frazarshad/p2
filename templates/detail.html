@@ -23,8 +23,6 @@
       <div class="cart_inner">
         <div class="table-responsive">
           <table class="table">
-{% block item_view %}
-        {% for item in items %}
         <div class="col-lg-4 col-sm-6 animated fadeInUp">
             <div class="single_category_product">
                 <div class="single_category_img">
@@ -60,9 +58,7 @@
                 </div>
             </div>
         </div>
-    {% endfor %}
-{% endblock %}
-<a href="during_detail">ADD TO CART</a>
+<a href="/during_detail/{{serial}}">ADD TO CART</a>
 YOU want to add more items
 <a href="browsing">YES</a>
 <a href="cart">NO</a>
