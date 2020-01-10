@@ -24,7 +24,9 @@
                                         Shop
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="category.html"> shop category</a>
+                                        {% for gender in ['men', 'women', 'children'] %}
+                                        <a class="dropdown-item" href="{{ url_for('admin.gender_admin_page', gender=gender) }}">{{ gender }}</a>
+                                        {% endfor %}
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -47,7 +49,7 @@
 
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="contact.html">Contact</a>
+                                    <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
                                 </li>
                             </ul>
                         </div>

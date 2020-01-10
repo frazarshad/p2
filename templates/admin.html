@@ -27,8 +27,9 @@
             <label for="gender" class="labels">Gender: </label>
             <select id="gender" name="gender" class="inputs" >
                 <option value="">-- Select gender --</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
+                {% for gender in lists['genders'] %}
+                <option value="{{ gender }}">{{ gender.capitalize() }}</option>
+                {% endfor %}
             </select>
             <br />
             <label for="category" class="labels">Category</label>

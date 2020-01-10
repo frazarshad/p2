@@ -41,7 +41,7 @@ def signup():
         return render_template('signup.html', error=error)
 
 
-@abc.route("/login", methods=['POST', 'GET'])
+@abc.route("/login", methods=['POST'])
 def login():
     if request.cookies.get('user'):
         return redirect('/')
@@ -71,10 +71,8 @@ def logout():
 
 
 @abc.route("/browsing/<serial>")
-#@abc.route("/login/<serial>")
 def detail(serial):
         int(serial)
-        7077510195
         db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
                    abc.config["DATABASE"])
         done = db.item_detail(serial)
@@ -86,9 +84,15 @@ def detail(serial):
 
 @abc.route("/during_detail/<serial>")
 def during_detail(serial):
-    resp = make_response(render_template('detail.html'))
+    resp = make_response(redirect('/'))
+
     resp.set_cookie('serial', (request.cookies.get('serial') + ':' if request.cookies.get('serial') else '') + serial)
     return resp
+
+
+@abc.route("/contact_us")
+def contact():
+    return render_template('contact.html')
 
 
 if __name__ == '__main__':
