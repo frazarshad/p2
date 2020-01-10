@@ -6,8 +6,7 @@
   box-sizing: border-box;
   clear: both;
   cursor: pointer;
-  display: block;
-  float: left;
+  display: inline-block;
   font-family: inherit;
   font-size: 14px;
   font-weight: normal;

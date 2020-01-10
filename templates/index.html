@@ -1,33 +1,12 @@
-<!doctype html>
-<html lang="zxx">
+{% extends 'base.html' %}
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>winter</title>
-    <link rel="icon" href="{{ url_for('static', filename='img/favicon.png') }}">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <!-- animate CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}">
-    <!-- owl carousel CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.min.css') }}">
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
-    <!-- flaticon CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/flaticon.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/themify-icons.css') }}">
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/magnific-popup.css') }}">
-    <!-- swiper CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/slick.css') }}">
-    <!-- style CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
+{% block title %}Admin Page{% endblock %}
+{% block header %}Admin{% endblock %}
 
-<body>
-    <!-- header --> {% include 'header.html' %}
+{% block content %}
+
+  <script src="{{ url_for('static', filename='js/jquery-1.12.1.min.js') }}"></script>
+<script>$(".breadcrumb").css("display", "none");</script>
     <!-- banner part start-->
     <section class="banner_part">
         <div class="container">
@@ -121,35 +100,4 @@
     </section>
     <!-- new arrival part end -->
 
-
-    <!-- footer part --> {% include 'footer.html' %}
-
-    <!-- jquery plugins here-->
-    <script src="{{ url_for('static', filename='js/jquery-1.12.1.min.js') }}"></script>
-    <!-- popper js -->
-    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
-    <!-- bootstrap js -->
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-    <!-- easing js -->
-    <script src="{{ url_for('static', filename='js/jquery.magnific-popup.js') }}"></script>
-    <!-- swiper js -->
-    <script src="{{ url_for('static', filename='js/swiper.min.js') }}"></script>
-    <!-- swiper js -->
-    <script src="{{ url_for('static', filename='js/mixitup.min.js') }}"></script>
-    <!-- particles js -->
-    <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/jquery.nice-select.min.js') }}"></script>
-    <!-- slick js -->
-    <script src="{{ url_for('static', filename='js/slick.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/jquery.counterup.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/waypoints.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/contact.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/jquery.ajaxchimp.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/jquery.form.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/jquery.validate.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/mail-script.js') }}"></script>
-    <!-- custom js -->
-    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
-</body>
-
-</html>
+{% endblock %}

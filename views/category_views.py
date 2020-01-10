@@ -6,7 +6,7 @@ category = Blueprint('category', __name__)
 
 @category.route('/category')
 def blank_category_page():
-    return redirect(url_for('category.category_page', gender='male', category_='all', page_no=1))
+    return redirect(url_for('category.category_page', gender='all', category_='all', page_no=1))
 
 
 @category.route('/category/<gender>')
@@ -21,7 +21,8 @@ def page_category_page(gender, category_):
 
 @category.route('/category/<gender>/<category_>/<int:page_no>')
 def category_page(gender, category_, page_no):
-    sort_list = {'new': 'date_added DESC', 'a-z': 'title ASC', 'z-a': 'title DESC', 'low-high': 'price ASC', 'high-low': 'price DESC'}
+    sort_list = {'new': 'date_added DESC', 'a-z': 'title ASC', 'z-a': 'title DESC', 'low-high': 'price ASC',
+                 'high-low': 'price DESC'}
 
     color = request.args.get('color') if request.args.get('color') else '%'
     show = int(request.args.get('show')) if request.args.get('show') else 12
@@ -30,7 +31,8 @@ def category_page(gender, category_, page_no):
     sort_by = sort_list[request.args.get('sort_by')] if request.args.get('sort_by') else sort_list['new']
 
     # Checking whether all values provided are correct
-    if gender not in lists['genders'] or (category_ not in lists[gender+'_categories'] and category_ != 'all'):
+    if (gender not in lists['genders'] and gender != 'all') or \
+            (category_ not in lists[gender + '_categories'] and category_ != 'all'):
         return redirect(url_for('category.blank_category_page'))
 
     db = DBHandler(current_app.config['DATABASEIP'], current_app.config['PORT'], current_app.config['DB_USER'],

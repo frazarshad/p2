@@ -4,6 +4,7 @@ from DBHandler import DBHandler
 from views.admin_views import admin
 from views.category_views import category
 
+from lists import lists
 # lists has been moved to lists.py
 
 abc = Flask(__name__, template_folder='templates')
@@ -18,7 +19,7 @@ def index():
     db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
                    abc.config["DATABASE"])
     items = db.get_top_bought_items()
-    return render_template("index.html", items=items)
+    return render_template("index.html", lists=lists, items=items)
 
 
 @abc.route('/signup', methods=['POST', 'GET'])

@@ -120,7 +120,8 @@ class DBHandler:
             cursor.close()
             db.close()
 
-    def get_items(self, color='%', gender='%', category='all', price_start=0, price_end=100000, sort_by='date_added DESC'):
+    def get_items(self, color='%', gender='all', category='all', price_start=0, price_end=100000, sort_by='date_added DESC'):
+        gender = '%' if gender == 'all' else gender
         category = '%' if category == 'all' else category
         cursor = None
         db = None
@@ -188,12 +189,10 @@ class DBHandler:
             db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cursor = db.cursor()
-            query = "SELECT * FROM items WHERE serial LIKE %s"
-            args = (serial)
-            cursor.execute(query,args)
-            serial, title, date_added, color, quantity, category, gender, price, manufacturer=cursor.fetchall()
-            Item (serial, title, date_added, color, quantity, category, gender, price, manufacturer)
-            return Item
+            query = "SELECT * FROM items WHERE serial=%s"
+            cursor.execute(query, serial)
+            item = Item(*cursor.fetchone())
+            return item
 
         except Exception as e:
             print(e)

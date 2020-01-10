@@ -10,7 +10,7 @@ admin = Blueprint('admin', __name__, template_folder='templates')
 
 @admin.route('/admin')
 def blank_admin_page(invalid=False):
-    return redirect(url_for('admin.admin_page', gender='male', category='all', page_no=1, invalid=invalid))
+    return redirect(url_for('admin.admin_page', gender='all', category='all', page_no=1, invalid=invalid))
 
 
 @admin.route('/admin/<gender>')
@@ -36,7 +36,8 @@ def admin_page(gender, category, page_no, invalid=False):
     sort_by = sort_list[request.args.get('sort_by')] if request.args.get('sort_by') else sort_list['new']
 
     # Checking whether all values provided are correct
-    if gender not in lists['genders'] or (category not in lists[gender+'_categories'] and category != 'all'):
+    if (gender not in lists['genders'] and gender != 'all') or\
+            (category not in lists[gender+'_categories'] and category != 'all'):
         return redirect(url_for('admin.blank_admin_page'))
 
     db = DBHandler(current_app.config['DATABASEIP'], current_app.config['PORT'], current_app.config['DB_USER'],
