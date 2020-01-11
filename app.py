@@ -1,6 +1,6 @@
 from flask import Flask, request, make_response, render_template, redirect
 from DBHandler import DBHandler
-
+from item import Item
 from views.admin_views import admin
 from views.category_views import category
 
@@ -126,6 +126,22 @@ def contact():
 @abc.route("/about")
 def about():
     return render_template('about.html')
+
+def  cart():
+    serials=[]
+    item=[]
+    count=0
+    serials=request.cookies.get["serial"].split(":")
+    db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
+                   abc.config["DATABASE"])
+    for x in serials:
+        done = db.item_detail(x)
+        item.append(Item)
+        count = count + (done.price)
+
+    return render_template("cart.html",item=item)
+
+
 
 
 if __name__ == '__main__':
