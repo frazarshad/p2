@@ -67,7 +67,7 @@
                                         <a class="dropdown-item" href="{{url_for('logout')}}">logout</a>
                                         <a class="dropdown-item" href="tracking.html">tracking</a>
                                         <a class="dropdown-item" href="checkout.html">product checkout</a>
-                                        <a class="dropdown-item" href="cart.html">shopping cart</a>
+                                        <a class="dropdown-item" href="{{url_for('cart')}}">shopping cart</a>
                                         <a class="dropdown-item" href="confirmation.html">confirmation</a>
                                         {% else %}
                                         <a class="dropdown-item" href="{{url_for('login')}}">login</a>
@@ -86,7 +86,7 @@
                         <div class="hearer_icon d-flex">
                             {% if cookies.get('user') %}
                             <div class="dropdown cart">
-                                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button"
+                                <a class="dropdown-toggle" href="{{url_for('cart')}}" id="navbarDropdown3" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="ti-bag"></i>
                                 </a>

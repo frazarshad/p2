@@ -92,7 +92,7 @@ def detail(serial):
         if done is None:
             return redirect('/browsing')
         else:
-            return render_template('detail.html', item=done, serial=serial)
+            return render_template('single-product.html', item=done, serial=serial)
 
 
 @abc.route("/during_detail/<serial>")
@@ -101,6 +101,11 @@ def during_detail(serial):
 
     resp.set_cookie('serial', (request.cookies.get('serial') + ':' if request.cookies.get('serial') else '') + serial)
     return resp
+
+
+@abc.route('/cart')
+def cart():
+    return render_template('cart.html')
 
 
 @abc.route("/contact_us", methods=['POST', 'GET'])
