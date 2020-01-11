@@ -92,7 +92,7 @@ def detail(serial):
         if done is None:
             return redirect('/browsing')
         else:
-            return render_template('detail.html', item=done, serial=serial)
+            return render_template('single-product.html', item=done, serial=serial)
 
 
 @abc.route("/during_detail/<serial>")
