@@ -223,6 +223,24 @@ class DBHandler:
             cursor.close()
             db.close()
 
+    def store_message(self, message, email, name, subject):
+        cursor = None
+        db = None
+        try:
+            db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cursor = db.cursor()
+            query = "INSERT INTO messages (name_, email, subject, message) VALUES (%s, %s, %s, %s)"
+            cursor.execute(query, [name, email, subject, message])
+            db.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False
+        finally:
+            cursor.close() if cursor else ''
+            db.close() if db else ''
+
 
 def Test():
     db = DBHandler("localhost", "root", "nimra","testdb")
