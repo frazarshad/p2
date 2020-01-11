@@ -86,8 +86,8 @@
                                 <a href="single-product.html"><h3>{{item.title}}</h3></a>
                                 <h5>Rs. {{ item.price }}</h5>
                                 <div class="social_icon">
-                                    <a href="#"><i class="ti-shopping-cart-full"></i></a>
-                                    <a href="#"><i class="ti-list"></i></a>
+                                    <a href="{{url_for('during_detail', serial=item.serial)}}"><i class="ti-shopping-cart-full"></i></a>
+                                    <a href="{{ url_for('detail', serial=item.serial    ) }}"><i class="ti-list"></i></a>
                                 </div>
                             </div>
                         </div>

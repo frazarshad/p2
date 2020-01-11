@@ -16,7 +16,15 @@ abc.register_blueprint(category)
 
 @abc.context_processor
 def base_variables():
-    return dict(lists=lists, cookies=request.cookies)
+    if request.cookies.get('serial'):
+        cart = request.cookies.get('serial').split(':')
+    else:
+        cart = []
+
+    db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
+                   abc.config["DATABASE"])
+    cart_items = [db.item_detail(serial) for serial in cart]
+    return dict(lists=lists, cookies=request.cookies, cart_items=cart_items)
 
 
 @abc.route('/')
@@ -89,15 +97,30 @@ def detail(serial):
 
 @abc.route("/during_detail/<serial>")
 def during_detail(serial):
-    resp = make_response(redirect('/'))
+    resp = make_response(redirect(request.referrer))
 
     resp.set_cookie('serial', (request.cookies.get('serial') + ':' if request.cookies.get('serial') else '') + serial)
     return resp
 
 
-@abc.route("/contact_us")
+@abc.route("/contact_us", methods=['POST', 'GET'])
 def contact():
+    if len(request.form) != 0:
+        message = request.form.get('message')
+        name = request.form.get('name')
+        email = request.form.get('email')
+        subject = request.form.get('subject')
+
+        db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
+                        abc.config["DATABASE"])
+        db.store_message(message=message, name=name, email=email, subject=subject)
+        return render_template('message-sent.html')
     return render_template('contact.html')
+
+
+@abc.route("/about")
+def about():
+    return render_template('about.html')
 
 
 if __name__ == '__main__':
