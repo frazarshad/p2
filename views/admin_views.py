@@ -46,8 +46,8 @@ def admin_page(gender, category, page_no, invalid=False):
     upper_limit = show * page_no
     lower_limit = upper_limit - show
 
-    return render_template('admin.html', page_name='admin', gender_main=gender, category_main=category, page_no_main=page_no,
-                           invlaid=invalid, items=items[lower_limit:upper_limit], lists=lists, pages=int((len(items)/show)+1),
+    return render_template('admin.html',  lists=lists, page_name='admin', gender_main=gender, category_main=category, page_no_main=page_no,
+                           invlaid=invalid, items=items[lower_limit:upper_limit], pages=int((len(items)/show)+1),
                            show=show, start_amount=price_start, end_amount=price_end, sort_by=sort_by)
 
 

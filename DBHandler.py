@@ -45,7 +45,7 @@ class DBHandler:
             sql = 'SELECT * FROM users WHERE username=%s AND password=%s'
             args = (name, password)
             cursor.execute(sql, args)
-            if cursor.arraysize == 1:
+            if cursor.rowcount == 1:
                 found = True
         except Exception as e:
             print(e)
@@ -70,7 +70,7 @@ class DBHandler:
             user = ""
 
             for row in cur.fetchall():
-                user += "fname:"+row[0]
+                user += "fname:" + row[0]
                 user += "lname:" + row[1]
                 user += "email:" + row[2]
                 myList.append(user)
@@ -81,6 +81,8 @@ class DBHandler:
         finally:
             if db is not None:
                 db.commit()
+            cursor.close()
+            db.close()
 
             return myList
 

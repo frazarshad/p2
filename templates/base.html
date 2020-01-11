@@ -52,7 +52,7 @@
                                         Shop
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        {% for gender in ['men', 'women', 'children'] %}
+                                        {% for gender in lists['genders'] %}
                                         <a class="dropdown-item" href="{{ url_for('category.gender_category_page', gender=gender) }}">{{ gender }}</a>
                                         {% endfor %}
                                     </div>
@@ -63,35 +63,42 @@
                                         pages
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                        <a class="dropdown-item" href="login.html">
-                                            login
-
-                                        </a>
+                                        {% if (cookies.get('user')) %}
+                                        <a class="dropdown-item" href="{{url_for('logout')}}">logout</a>
                                         <a class="dropdown-item" href="tracking.html">tracking</a>
                                         <a class="dropdown-item" href="checkout.html">product checkout</a>
                                         <a class="dropdown-item" href="cart.html">shopping cart</a>
                                         <a class="dropdown-item" href="confirmation.html">confirmation</a>
-                                        <a class="dropdown-item" href="elements.html">elements</a>
+                                        {% else %}
+                                        <a class="dropdown-item" href="{{url_for('login')}}">login</a>
+                                        <a class="dropdown-item" href="{{url_for('signup')}}">sign up</a>
+                                        {% endif %}
+
                                     </div>
                                 </li>
 
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
+                                    <a class="nav-link" href="{{ url_for('contact') }}">Contact Us</a>
                                 </li>
                             </ul>
                         </div>
                         <div class="hearer_icon d-flex">
+                            {% if cookies.get('user') %}
                             <div class="dropdown cart">
                                 <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="ti-bag"></i>
                                 </a>
-                                <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <div class="single_product">
 
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <div class="single_product">
+                                        <p>items</p>
                                     </div>
-                                </div> -->
+                                </div>
+                            {% else %}
+                                <div> <a href="{{ url_for('login') }}">Login</a></div>
+                            {% endif %}
                             </div>
                             <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
                         </div>
@@ -255,33 +262,3 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
   <!-- custom js -->
   <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
 </body>
-
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>winter</title>
-    <link rel="icon" href="{{ url_for('static', filename='img/favicon.png') }}">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <!-- animate CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}">
-    <!-- owl carousel CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.min.css') }}">
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css') }}">
-    <!-- flaticon CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/flaticon.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/themify-icons.css') }}">
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/magnific-popup.css') }}">
-    <!-- swiper CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/slick.css') }}">
-    <!-- swiper CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/price_rangs.css') }}">
-    <!-- style CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <!-- styling for the floating action button -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/floating-button.css') }}">
-</head>
