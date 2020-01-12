@@ -149,5 +149,11 @@ def search():
     else:
         return redirect('/')
 
+
+@abc.route('/checkout')
+def checkout():
+    return render_template('checkout.html')
+
+
 if __name__ == '__main__':
     abc.run()
