@@ -17,14 +17,17 @@ abc.register_blueprint(category)
 @abc.context_processor
 def base_variables():
     if request.cookies.get('serial'):
-        cart = request.cookies.get('serial').split(':')
+        cart_ = request.cookies.get('serial').split(':')
     else:
-        cart = []
+        cart_ = []
 
     db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
                    abc.config["DATABASE"])
-    cart_items = [db.item_detail(serial) for serial in cart]
-    return dict(lists=lists, cookies=request.cookies, cart_items=cart_items)
+    cart_items = [db.item_detail(serial) for serial in cart_]
+    total = 0
+    for item in cart_items:
+        total += item.price
+    return dict(lists=lists, cookies=request.cookies, cart_items=cart_items, total=total)
 
 
 @abc.route('/')
@@ -85,9 +88,6 @@ def logout():
 
 @abc.route("/browsing/<serial>")
 def detail(serial):
-    if request.cookies.get('user') is None:
-        return redirect(url_for('index'))
-
     db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
                    abc.config["DATABASE"])
     done = db.item_detail(serial)
@@ -99,6 +99,9 @@ def detail(serial):
 
 @abc.route("/during_detail/<serial>")
 def during_detail(serial):
+    if request.cookies.get('user') is None:
+        return redirect(url_for('login'))
+
     resp = make_response(redirect(request.referrer))
 
     resp.set_cookie('serial', (request.cookies.get('serial') + ':' if request.cookies.get('serial') else '') + serial)
@@ -128,11 +131,11 @@ def about():
 @abc.route('/cart')
 def cart():
     if request.cookies.get('user') is None:
-        return redirect(url_for('index'))
+        return redirect(url_for('login'))
 
     item = []
     count = 0
-    serials = request.cookies.get("serial").split(":")
+    serials = request.cookies.get("serial").split(":") if request.cookies.get('serial') else []
     db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
                    abc.config["DATABASE"])
     for x in serials:
@@ -157,6 +160,8 @@ def search():
 
 @abc.route('/checkout', methods=['post', 'get'])
 def checkout():
+    if request.cookies.get('user') is None:
+        return redirect('/login')
     try:
         fname = request.form['firstname']
         lname = request.form['lastname']
@@ -171,7 +176,7 @@ def checkout():
 
         db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
                        abc.config["DATABASE"])
-        doem = db.store_order(fname, lname, company, number, email, address, city, zip_, message, payment)
+        db.store_order(fname, lname, company, number, email, address, city, zip_, message, payment)
 
         resp = make_response(render_template('confirmation.html'))
         resp.set_cookie('serial', '', expires=0)
