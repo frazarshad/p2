@@ -24,6 +24,12 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/price_rangs.css') }}">
   <!-- style CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .single_product p {
+            color:white;
+            padding-left: 7px;
+        }
+    </style>
 </head>
 
 <body class="bg-white">
@@ -65,10 +71,8 @@
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                                         {% if (cookies.get('user')) %}
                                         <a class="dropdown-item" href="{{url_for('logout')}}">logout</a>
-                                        <a class="dropdown-item" href="tracking.html">tracking</a>
-                                        <a class="dropdown-item" href="checkout.html">product checkout</a>
                                         <a class="dropdown-item" href="{{url_for('cart')}}">shopping cart</a>
-                                        <a class="dropdown-item" href="confirmation.html">confirmation</a>
+                                            <a class="dropdown-item" href="{{url_for('checkout')}}">product checkout</a>
                                         {% else %}
                                         <a class="dropdown-item" href="{{url_for('login')}}">login</a>
                                         <a class="dropdown-item" href="{{url_for('signup')}}">sign up</a>
@@ -94,7 +98,7 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     {% for cart_item in cart_items %}
                                     <div class="single_product">
-                                        <p>{{cart_item.title}}</p>
+                                        <p>▪ {{cart_item.title}}</p>
                                     </div>
                                     {% endfor %}
                                 </div>

@@ -124,7 +124,6 @@ def about():
 
 @abc.route('/cart')
 def cart():
-    serials = []
     item = []
     count = 0
     serials = request.cookies.get("serial").split(":")
@@ -150,9 +149,30 @@ def search():
         return redirect('/')
 
 
-@abc.route('/checkout')
+@abc.route('/checkout', methods=['post', 'get'])
 def checkout():
-    return render_template('checkout.html')
+    try:
+        fname = request.form['firstname']
+        lname = request.form['lastname']
+        company = request.form['company']
+        number = request.form['number']
+        email = request.form['email']
+        address = request.form['add1'] + request.form['add2']
+        city = request.form['city']
+        zip_ = request.form['zip']
+        message = request.form['message']
+        payment = request.form['payment']
+
+        db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
+                       abc.config["DATABASE"])
+        doem = db.store_order(fname, lname, company, number, email, address, city, zip_, message, payment)
+
+        resp = make_response(render_template('confirmation.html'))
+        resp.set_cookie('serial', '', expires=0)
+        return resp
+    except Exception as e:
+        print(e)
+        return render_template('checkout.html')
 
 
 if __name__ == '__main__':

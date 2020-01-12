@@ -262,6 +262,25 @@ class DBHandler:
             cursor.close() if cursor else ''
             db.close() if db else ''
 
+    def store_order(self, fname, lname, company, number, email, address, city, zip_, message, payment):
+            cursor = None
+            db = None
+            try:
+                db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                     database=self.DATABASE)
+                cursor = db.cursor()
+                query = "INSERT INTO orders (fname, lname, company, number_, email, address, city, zip, message," \
+                        " payment) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                cursor.execute(query, [fname, lname, company, number, email, address, city, zip_, message, payment])
+                db.commit()
+                return True
+            except Exception as e:
+                print(e)
+                return False
+            finally:
+                cursor.close() if cursor else ''
+                db.close() if db else ''
+
 
 def Test():
     db = DBHandler("localhost", "root", "nimra","testdb")
