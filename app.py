@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response, render_template, redirect
+from flask import Flask, request, make_response, render_template, redirect,url_for
 from DBHandler import DBHandler
 from item import Item
 from views.admin_views import admin
@@ -85,6 +85,9 @@ def logout():
 
 @abc.route("/browsing/<serial>")
 def detail(serial):
+    if request.cookies.get('user') is None:
+        return redirect(url_for('index'))
+
     db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
                    abc.config["DATABASE"])
     done = db.item_detail(serial)
@@ -124,6 +127,9 @@ def about():
 
 @abc.route('/cart')
 def cart():
+    if request.cookies.get('user') is None:
+        return redirect(url_for('index'))
+
     serials = []
     item = []
     count = 0
