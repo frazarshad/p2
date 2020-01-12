@@ -66,38 +66,26 @@
               </tr>
             </thead>
             <tbody>
-            {% if items|length != 0 %}
-        {% for item in items %}
+                   {% for x in item %}
               <tr>
                 <td>
-                  <div class="media">
-                    <div class="d-flex">
-                    </div>
-                    <div class="media-body">
-                        <h5>{{item.title}}</h5>
-                    </div>
-                  </div>
+                        <h5>{{x.title}}</h5>
                 </td>
                 <td>
-                  <h5>{{item.price}}</h5>
+                  <h5>Rs. {{x.price}}</h5>
                 </td>
                 <td>
-                  <div class="product_count">
-                      <h5>{{item.color}}</h5>
-                  </div>
+                      <h5>{{x.color}}</h5>
                 </td>
                 <td>
-                  <h5>{{item.category}}</h5>
+                  <h5>{{x.category}}</h5>
                 </td>
                 <td>
-                  <h5>{{item.quantity}}</h5>
+                  <h5>{{x.quantity}}</h5>
                 </td>
               </tr>
             {% endfor %}
-            {% endif %}
              <tr class="shipping_area">
-                <td></td>
-                <td></td>
                 <td>
                   <h5>&nbsp&nbsp&nbsp
                       &nbsp&nbsp&nbsp
@@ -117,7 +105,6 @@
                 <td>
                   <div class="shipping_box">
                     <ul class="list">
-
                     </ul>
 
                     <select class="shipping_select">
