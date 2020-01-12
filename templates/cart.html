@@ -54,14 +54,15 @@
     <div class="container">
       <div class="cart_inner">
         <div class="table-responsive">
+
           <table class="table">
             <thead>
-              <tr>
-                <th scope="col">Product</th>
-                <th scope="col">Price</th>
-                <th scope="col">color</th>
-                <th scope="col">category</th>
-                <th scope="col">Quantity</th>
+              <tr style="font-size:200%;color:red;">
+                <th scope="col" style="font-size:100%;color:blue;">Product</th>
+                <th scope="col" style="font-size:100%;color:blue;">Price</th>
+                <th scope="col" style="font-size:100%;color:blue;">color</th>
+                <th scope="col" style="font-size:100%;color:blue;">category</th>
+                <th scope="col" style="font-size:100%;color:blue;">Quantity</th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -81,53 +82,41 @@
                   <h5>{{x.category}}</h5>
                 </td>
                 <td>
-                  <h5>{{x.quantity}}</h5>
+                   <h5>1 item</h5>
                 </td>
               </tr>
             {% endfor %}
              <tr class="shipping_area">
-                <td>
-                  <h5>&nbsp&nbsp&nbsp
-                      &nbsp&nbsp&nbsp
-                      &nbsp&nbsp&nbsp
-                    &nbsp&nbsp&nbsp
-                      &nbsp&nbsp&nbsp
-                      &nbsp&nbsp&nbsp
-                    &nbsp&nbsp&nbsp
-                      &nbsp&nbsp&nbsp
-                      &nbsp&nbsp&nbsp
-                      Transport Requirements</h5>
-                    <br><br><br><br>
-                    <br><br><br><br>
-                    <br><br><br><br>
-                </td>
+               <td></td>
+               <td></td>
+               <td></td>
+
+
+
                 <td>
                 <td>
                   <div class="shipping_box">
                     <ul class="list">
                     </ul>
+                    <br><br><br>
+                    <h5 style="font-size:130%;color:blue;align:middle">Transport Requirements
+                    <br>
 
-                    <select class="shipping_select">
-                      <option value="1">Lahore</option>
-                      <option value="2">Islamabad</option>
-                        <option value="3">Faisalabad</option>
-                      <option value="4">Karachi</option>
-                    </select>
-                      <select class="shipping_select section_bg">
-                      <option value="1">Payment options</option>
-                      <option value="2">Payment options</option>
-                      <option value="4">Payment options</option>
-                    </select>
+                      <br><br>
+                     Enter Address
+            <input type="text" name="adress"/>
+                    </h5>
+
+                    <br>
+                    <br>
+
+                    <a class="btn_1" href="#">Click Me!</a>
                   </div>
 
              </td>
               </tr>
             </tbody>
           </table>
-          <div class="checkout_btn_inner float-right">
-            Enter Address
-            <input type="text" name="adress"/>
-          </div>
         </div>
       </div>
     </div>
