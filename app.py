@@ -138,5 +138,16 @@ def cart():
     return render_template("cart.html", item=item)
 
 
+@abc.route('/search', methods=['POST'])
+def search():
+    if request.form.get('search_input'):
+        to_search = request.form.get('search_input')
+        db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
+                       abc.config["DATABASE"])
+        items = db.search(to_search)
+        return render_template('search-results.html', items=items, to_search=to_search)
+    else:
+        return redirect('/')
+
 if __name__ == '__main__':
     abc.run()
