@@ -132,7 +132,7 @@ def cart():
                    abc.config["DATABASE"])
     for x in serials:
         done = db.item_detail(x)
-        item.append(Item)
+        item.append(done)
         count = count + done.price
 
     return render_template("cart.html", item=item)
