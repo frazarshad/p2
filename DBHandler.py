@@ -223,6 +223,27 @@ class DBHandler:
             cursor.close()
             db.close()
 
+    def search(self, match):
+        cursor = None
+        db = None
+        items = []
+        try:
+            db = pymysql.connect(host=self.DB_HOST, port=self.DB_PORT, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cursor = db.cursor()
+            query = "SELECT * FROM items WHERE title LIKE %s"
+            cursor.execute(query, '%'+match+'%')
+
+            for item in cursor.fetchall():
+                items.append(Item(*item))
+            return items
+        except Exception as e:
+            print(e)
+            return []
+        finally:
+            cursor.close()
+            db.close()
+
     def store_message(self, message, email, name, subject):
         cursor = None
         db = None
