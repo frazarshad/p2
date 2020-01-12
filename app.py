@@ -103,11 +103,6 @@ def during_detail(serial):
     return resp
 
 
-@abc.route('/cart')
-def cart():
-    return render_template('cart.html')
-
-
 @abc.route("/contact_us", methods=['POST', 'GET'])
 def contact():
     if len(request.form) != 0:
@@ -127,6 +122,7 @@ def contact():
 def about():
     return render_template('about.html')
 
+@abc.route('/cart')
 def  cart():
     serials=[]
     item=[]
