@@ -36,12 +36,12 @@
 
 
               <div class="add_to_cart">
-                  <a href="/during_detail/{{serial}}" class="btn_3">add to cart</a>
+                  <a href="{{ url_for('during_detail', serial=item.serial) }}" class="btn_3">add to cart</a>
                 <br>
 
               </div>
               <div class="add_to_cart">
-              <a href="category" class="btn_3">OrderMore</a>
+              <a href="{{url_for('category.blank_category_page')}}" class="btn_3">Order more</a>
               </div>
             </div>
           </div>

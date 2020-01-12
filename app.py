@@ -85,14 +85,13 @@ def logout():
 
 @abc.route("/browsing/<serial>")
 def detail(serial):
-        int(serial)
-        db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
+    db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
                    abc.config["DATABASE"])
-        done = db.item_detail(serial)
-        if done is None:
-            return redirect('/browsing')
-        else:
-            return render_template('single-product.html', item=done, serial=serial)
+    done = db.item_detail(serial)
+    if done is None:
+        return redirect('/browsing')
+    else:
+        return render_template('single-product.html', item=done, serial=serial)
 
 
 @abc.route("/during_detail/<serial>")
@@ -122,22 +121,21 @@ def contact():
 def about():
     return render_template('about.html')
 
+
 @abc.route('/cart')
-def  cart():
-    serials=[]
-    item=[]
-    count=0
-    serials=request.cookies.get["serial"].split(":")
+def cart():
+    serials = []
+    item = []
+    count = 0
+    serials = request.cookies.get("serial").split(":")
     db = DBHandler(abc.config["DATABASEIP"], abc.config["PORT"], abc.config["DB_USER"], abc.config["DB_PASSWORD"],
                    abc.config["DATABASE"])
     for x in serials:
         done = db.item_detail(x)
         item.append(Item)
-        count = count + (done.price)
+        count = count + done.price
 
-    return render_template("cart.html",item=item)
-
-
+    return render_template("cart.html", item=item)
 
 
 if __name__ == '__main__':
