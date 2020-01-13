@@ -25,8 +25,9 @@ def page_admin_page(gender, category, invalid=False):
 
 @admin.route('/admin/<gender>/<category>/<int:page_no>')
 def admin_page(gender, category, page_no, invalid=False):
-    # if request.cookies.get('user') != 'admin':
-    #   return redirect(url_for('index'))
+    if request.cookies.get('user') != 'admin':
+        return redirect(url_for('index'))
+
     sort_list = {'new': 'date_added DESC', 'a-z': 'title ASC', 'z-a': 'title DESC', 'low-high': 'price ASC', 'high-low': 'price DESC'}
 
     color = request.args.get('color') if request.args.get('color') else '%'

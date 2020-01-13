@@ -25,6 +25,7 @@ def base_variables():
                    abc.config["DATABASE"])
     cart_items = [db.item_detail(serial) for serial in cart_]
     total = 0
+
     for item in cart_items:
         total += item.price
     return dict(lists=lists, cookies=request.cookies, cart_items=cart_items, total=total)
@@ -82,7 +83,9 @@ def login():
 @abc.route("/logout")
 def logout():
     response = make_response(redirect('/login'))
-    response.set_cookie('user', '\0', expires=0)
+    response.set_cookie('user', '', expires=0)
+    response.set_cookie('serial', '', expires=0)
+
     return response
 
 
